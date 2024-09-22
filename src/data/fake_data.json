@@ -1,0 +1,180 @@
+{
+    "Accounts": [
+        {
+            "id": 1,
+            "email": "user1@gmail.com",
+            "display_name": "User 1",
+            "birthday": "2024-04-10",
+            "gender": "female",
+            "avatar": "https://didongviet.vn/dchannel/wp-content/uploads/2023/08/hinh-nen-3d-hinh-nen-iphone-dep-3d-didongviet@2x.jpg",
+            "status": true,
+            "createdAt": "2024-04-10",
+            "isDeleted": false
+        },
+        {
+            "id": 2,
+            "email": "user2@gmail.com",
+            "display_name": "User 2",
+            "birthday": "2023-07-20",
+            "gender": "male",
+            "avatar": "https://example.com/avatar2.jpg",
+            "status": true,
+            "createdAt": "2023-07-20",
+            "isDeleted": false
+        },
+        {
+            "id": 3,
+            "email": "user3@gmail.com",
+            "display_name": "User 3",
+            "birthday": "2022-09-15",
+            "gender": "female",
+            "avatar": "https://example.com/avatar3.jpg",
+            "status": false,
+            "createdAt": "2022-09-15",
+            "isDeleted": false
+        },
+        {
+            "id": 4,
+            "email": "user4@gmail.com",
+            "display_name": "User 4",
+            "birthday": "2021-05-30",
+            "gender": "male",
+            "avatar": "https://example.com/avatar4.jpg",
+            "status": true,
+            "createdAt": "2021-05-30",
+            "isDeleted": false
+        },
+        {
+            "id": 5,
+            "email": "user5@gmail.com",
+            "display_name": "User 5",
+            "birthday": "2020-12-01",
+            "gender": "female",
+            "avatar": "https://example.com/avatar5.jpg",
+            "status": true,
+            "createdAt": "2020-12-01",
+            "isDeleted": false
+        },
+        {
+            "id": 6,
+            "email": "user6@gmail.com",
+            "display_name": "User 6",
+            "birthday": "2019-11-11",
+            "gender": "male",
+            "avatar": "https://example.com/avatar6.jpg",
+            "status": false,
+            "createdAt": "2019-11-11",
+            "isDeleted": true
+        },
+        {
+            "id": 7,
+            "email": "user7@gmail.com",
+            "display_name": "User 7",
+            "birthday": "2018-08-08",
+            "gender": "female",
+            "avatar": "https://example.com/avatar7.jpg",
+            "status": true,
+            "createdAt": "2018-08-08",
+            "isDeleted": false
+        },
+        {
+            "id": 8,
+            "email": "user8@gmail.com",
+            "display_name": "User 8",
+            "birthday": "2017-06-05",
+            "gender": "male",
+            "avatar": "https://example.com/avatar8.jpg",
+            "status": true,
+            "createdAt": "2017-06-05",
+            "isDeleted": false
+        },
+        {
+            "id": 9,
+            "email": "user9@gmail.com",
+            "display_name": "User 9",
+            "birthday": "2016-04-25",
+            "gender": "female",
+            "avatar": "https://example.com/avatar9.jpg",
+            "status": false,
+            "createdAt": "2016-04-25",
+            "isDeleted": false
+        },
+        {
+            "id": 10,
+            "email": "user10@gmail.com",
+            "display_name": "User 10",
+            "birthday": "2015-03-18",
+            "gender": "male",
+            "avatar": "https://example.com/avatar10.jpg",
+            "status": true,
+            "createdAt": "2015-03-18",
+            "isDeleted": false
+        },
+        {
+            "id": 11,
+            "email": "user11@gmail.com",
+            "display_name": "User 11",
+            "birthday": "2014-09-12",
+            "gender": "female",
+            "avatar": "https://example.com/avatar11.jpg",
+            "status": true,
+            "createdAt": "2014-09-12",
+            "isDeleted": false
+        },
+        {
+            "id": 12,
+            "email": "user12@gmail.com",
+            "display_name": "User 12",
+            "birthday": "2013-11-22",
+            "gender": "male",
+            "avatar": "https://example.com/avatar12.jpg",
+            "status": false,
+            "createdAt": "2013-11-22",
+            "isDeleted": true
+        },
+        {
+            "id": 13,
+            "email": "user13@gmail.com",
+            "display_name": "User 13",
+            "birthday": "2012-02-14",
+            "gender": "female",
+            "avatar": "https://example.com/avatar13.jpg",
+            "status": true,
+            "createdAt": "2012-02-14",
+            "isDeleted": false
+        },
+        {
+            "id": 14,
+            "email": "user14@gmail.com",
+            "display_name": "User 14",
+            "birthday": "2011-12-31",
+            "gender": "male",
+            "avatar": "https://example.com/avatar14.jpg",
+            "status": true,
+            "createdAt": "2011-12-31",
+            "isDeleted": false
+        },
+        {
+            "id": 15,
+            "email": "user15@gmail.com",
+            "display_name": "User 15",
+            "birthday": "2010-07-07",
+            "gender": "female",
+            "avatar": "https://example.com/avatar15.jpg",
+            "status": true,
+            "createdAt": "2010-07-07",
+            "isDeleted": false
+        },
+        {
+            "id": 16,
+            "email": "user16@gmail.com",
+            "display_name": "User 16",
+            "birthday": "2009-05-19",
+            "gender": "male",
+            "avatar": "https://example.com/avatar16.jpg",
+            "status": false,
+            "createdAt": "2009-05-19",
+            "isDeleted": true
+        }
+    ]
+}

@@ -19,15 +19,9 @@ const Homepage = () => {
         try {
             // Gọi API đăng nhập qua authAPI
             const response = await authAPI.login(credentials);
-            toast.success("Đăng nhập thành công!", {
-                position: toast.POSITION.TOP_RIGHT,
-                autoClose: 3000 // thời gian hiển thị thông báo là 3 giây
-            });
+            toast.success("Đăng nhập thành công!");
         } catch (error) {
-            toast.error("Đăng nhập thất bại. Vui lòng thử lại.", {
-                position: toast.POSITION.TOP_RIGHT,
-                autoClose: 3000
-            });
+            toast.error("Đăng nhập thất bại. Vui lòng thử lại.");
         }
     };
 

@@ -1,11 +1,10 @@
-//Vi du
-import Sidebar from "../sidebar";
-import './MainLayout.scss'
+import Header from "../header/header";
+import './AdminLayout.scss'
 
 function AdminLayout (props) {
     return (
         <div class='layout-wrapper'>
-            <Sidebar /> 
+            <Header /> 
             <div class='content-body'>
                 <props.component /> 
             </div>

@@ -32,6 +32,7 @@ const AllRoutes = () => {
                     path="/admin/manage-account"
                     element={
                         <AdminLayout component={ManageAccount} />
+                        <AdminLayout component={ManageAccount} />
                     }
                 />
                 <Route

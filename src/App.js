@@ -1,12 +1,15 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import AllRoutes from "./views/routes";
+import { ThemeProvider } from "./contexts/themeContext";
 
 function App() {
   return (
-    <BrowserRouter>
-      <AllRoutes />
-    </BrowserRouter>
+    <ThemeProvider>
+      <BrowserRouter>
+        <AllRoutes />
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

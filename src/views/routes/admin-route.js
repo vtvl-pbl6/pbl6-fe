@@ -8,7 +8,7 @@ const AdminRoute = () => {
     if (account && account.role === 1) { // thay đổi theo role
         return <Outlet />;
     } else {
-        return <Navigate to="/" />; // đổi đường dẫn đến page tương ứng với khi truy cập admin
+        return <Navigate to="/auth/login" />; 
     }
 };
 

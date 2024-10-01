@@ -11,37 +11,43 @@ const UserHomePage = LoadableComponent(() =>
 const Login = LoadableComponent(() =>
   import("../../layout/auth/Login/index.jsx")
 );
-
+const Signup = LoadableComponent(() =>
+  import("../../layout/auth/Signup/index.jsx")
+);
+const ForgotPassword = LoadableComponent(() =>
+  import("../../layout/auth/ForgotPassword/index.jsx")
+);
 const AllRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Navigate to={"/auth/login"} />} />
+      <Route
+        path="/user-homepage"
+        element={<UserLayout component={UserHomePage} />}
+      />
       <Route path="/auth/login" element={<Login />} />
+      <Route path="/auth/signup" element={<Signup />} />
+      <Route path="/auth/forgot-password" element={<ForgotPassword />} />
 
       {/* User */}
-      <Route element={<UserRoute />}>
+      {/* <Route element={<UserRoute />}>
         <Route
           path="/user-homepage"
           element={<UserLayout component={UserHomePage} />}
         />
-      </Route>
+      </Route> */}
 
       {/* Admin */}
       {/* <Route element={<AdminRoute />}>
-                <Route
-                    path="/admin/manage-account"
-                    element={
-                        <AdminLayout component={ManageAccount} />
-                        <AdminLayout component={ManageAccount} />
-                    }
-                />
-                <Route
-                    path="/admin/manage-activity"
-                    element={
-                        <AdminLayout component={ManageActivity} />
-                    }
-                />
-            </Route> */}
+        <Route
+          path="/admin/manage-account"
+          element={<AdminLayout component={ManageAccount} />}
+        />
+        <Route
+          path="/admin/manage-activity"
+          element={<AdminLayout component={ManageActivity} />}
+        />
+      </Route> */}
     </Routes>
   );
 };

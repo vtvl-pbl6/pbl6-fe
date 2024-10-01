@@ -1,9 +1,23 @@
 {
-    "welcome": "Chào mừng bạn đến với ứng dụng!",
-    "changeLanguage": "Thay đổi ngôn ngữ",
-    "textLogin": "Đăng nhập",
-    "modal": {
-        "confirm": "Xác nhận",
-        "cancel": "Huỷ"
-    }
+  "welcome": "Hãy kết nối cùng Threeds!",
+  "comeback": "Chào mừng quay trở lại!",
+  "changeLanguage": "Thay đổi ngôn ngữ",
+  "textLogin": "Đăng nhập",
+  "loginSuccess": "Đăng nhập thành công",
+  "loginFailed": "Đăng nhập thất bại",
+  "signup": "Đăng kí",
+  "requiredPassword": "Vui lòng nhập mật khẩu",
+  "invalidEmail": "Địa chỉ email không đúng",
+  "username": "Tên người dùng",
+  "password": "Mật khẩu",
+  "fullname": "Họ và tên",
+  "email": "Tài khoản email",
+  "forgotPassword": "Quên mật khẩu?",
+  "modal": {
+    "confirm": "Xác nhận",
+    "cancel": "Huỷ"
+  },
+  "or": "Hoặc",
+  "donHaveAcc": "Bạn chưa có tài khoản ư? ",
+  "haveAcc": "Bạn đã có tài khoản? "
 }

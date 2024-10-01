@@ -1,0 +1,39 @@
+.signup-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-image: url('../../../assets/imgs/bg.webp');
+
+    .signup-container {
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+
+        h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .signup-form {
+            display: flex;
+            flex-direction: column;
+
+            .base-button {
+                cursor: pointer;
+            }
+        }
+
+        .text-birthday {
+            border: '5px';
+            margin-bottom: '10px';
+            display: 'flex';
+        }
+    }
+}

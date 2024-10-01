@@ -8,11 +8,11 @@ ol {
 * {
   text-decoration: none;
 }
-html{
+html {
   font-size: 16px;
 }
 
-.icon-container{
+.icon-container {
   border-radius: 50%;
   padding: 8px;
   width: 40px;
@@ -20,6 +20,6 @@ html{
   transition: background-color 0.3s ease-in-out;
 }
 
-.icon-container:hover{
+.icon-container:hover {
   background-color: #726f6f;
 }

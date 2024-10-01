@@ -1,20 +1,48 @@
-.login-form {
-    display: flex;
-    flex-direction: column;
-    width: 300px;
-    margin: 0 auto;
-  
-    input {
-      margin: 10px 0;
-      padding: 10px;
-      font-size: 1rem;
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-image: url("../../../assets/imgs/bg.webp");
+  .login-container {
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 330px;
+    text-align: center;
+
+    h2 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      font-weight: bold;
     }
-  
-    button {
-      font-size: 1rem;
-      border: none;
-      cursor: pointer;
-      
+
+    .login-form {
+      display: flex;
+      flex-direction: column;
+
+      .base-button {
+        cursor: pointer;
+      }
+
+      .forgot-password {
+        margin-top: 10px;
+        color: #f1f1f1;
+        font-size: 14px;
+        text-align: right;
+      }
     }
   }
-  
+  .error-message {
+    font-size: 14px;
+    color: red;
+    text-align: right;
+    margin-bottom: 7px;
+  }
+  .or-divider {
+    margin-bottom: 10px;
+  }
+}

@@ -1,0 +1,14 @@
+.layout-wrapper {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  flex: 0 0 4%;
+  padding: 8px;
+}
+
+.content-body {
+  flex: 1;
+  overflow-y: auto;
+}

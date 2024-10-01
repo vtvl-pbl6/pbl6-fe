@@ -1,8 +1,10 @@
 import axiosClient from "./axiosClient";
 
 const accountInfoAPI = {
-    getInfoByToken: () => {
-    }
+  getInfoByToken: () => {
+    const url = "/account/detail";
+    return axiosClient.application.get(url);
+  },
 };
 
 export default accountInfoAPI;

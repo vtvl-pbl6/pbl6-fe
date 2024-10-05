@@ -1,13 +1,13 @@
 @import "../../contants/colors.scss";
 
 .layout-wrapper {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; 
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .content-body {
-    flex-grow: 1; 
-    padding: 20px; 
-    background-color: $background;
+  flex-grow: 1;
+  padding: 20px;
+  background-color: $background;
 }

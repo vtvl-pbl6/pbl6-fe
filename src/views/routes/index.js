@@ -17,6 +17,7 @@ const Signup = LoadableComponent(() =>
 const ForgotPassword = LoadableComponent(() =>
   import("../../layout/auth/ForgotPassword/index.jsx")
 );
+const Profile = LoadableComponent(() => import("../pages/Profile/index.jsx"));
 const AllRoutes = () => {
   return (
     <Routes>
@@ -25,6 +26,7 @@ const AllRoutes = () => {
         path="/user-homepage"
         element={<UserLayout component={UserHomePage} />}
       />
+      <Route path="/profile" element={<UserLayout component={Profile} />} />
       <Route path="/auth/login" element={<Login />} />
       <Route path="/auth/signup" element={<Signup />} />
       <Route path="/auth/forgot-password" element={<ForgotPassword />} />

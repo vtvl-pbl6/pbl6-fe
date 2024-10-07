@@ -5,6 +5,10 @@ const authAPI = {
     const url = prefix_url + "/auth/login";
     return await axiosClient.applicationNoAuth.post(url, credentials);
   },
+  logout: async () => {
+    const url = prefix_url + "/auth/revoke-token";
+    return await axiosClient.application.post(url);
+  },
   register: async (user) => {
     const url = prefix_url + "/auth/register";
     return await axiosClient.applicationNoAuth.post(url, user);

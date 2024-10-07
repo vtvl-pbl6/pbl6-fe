@@ -1,7 +1,6 @@
 import { createContext, useState, useEffect, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
 import axiosClient from "../api/axiosClient";
-import accountInfoAPI from "../api/accountAPI";
+import authAPI from "../api/authAPI";
 const AccountContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
@@ -9,39 +8,42 @@ export const AuthProvider = ({ children }) => {
   const [account, setAccount] = useState(
     JSON.parse(localStorage.getItem("account"))
   );
-
+  const logout = async () => {
+    try {
+      const response = await authAPI.logout();
+      if (response.is_success) {
+        setToken(null);
+        setAccount(null);
+        localStorage.removeItem("token");
+        localStorage.removeItem("account");
+      } else {
+        console.error("Logout failed", response.errors);
+      }
+    } catch (error) {
+      console.error("Logout failed", error);
+    }
+  };
+  console.log("Current token:", token);
+  console.log("LocalStorage token:", localStorage.getItem("token"));
   const providerValue = useMemo(
-    () => ({ token, setToken, account, setAccount }),
-    [token, setToken, account, setAccount]
+    () => ({ token, setToken, account, setAccount, logout }),
+    [token, account]
   );
 
-  const navigate = useNavigate();
-
   useEffect(() => {
-    if (token !== "null") {
-      // Set authenticate token to axios
+    if (token !== null) {
       axiosClient.application.defaults.headers.common[
         "Authorization"
       ] = `Bearer ${token}`;
-
-      // accountInfoAPI
-      //   .getInfoByToken()
-      //   .then((response) => {
-      //     setAccount(response.data);
-      //     localStorage.setItem("account", JSON.stringify(response.data));
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //   });
+      axiosClient.formData.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${token}`;
     } else {
       // User logout
       delete axiosClient.application.defaults.headers.common["Authorization"];
-
-      setAccount("null");
-      localStorage.removeItem("token");
-      localStorage.removeItem("account");
+      delete axiosClient.formData.defaults.headers.common["Authorization"];
     }
-  }, [token, navigate]);
+  }, [token]);
 
   return (
     <AccountContext.Provider value={providerValue}>

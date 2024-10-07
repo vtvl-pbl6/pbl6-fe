@@ -17,7 +17,9 @@ function UserLayout(props) {
           color: currentTheme.text,
         }}
       >
-        <props.component setActiveIcon={setActiveIcon} />
+        <div className="content-wrapper">
+          <props.component setActiveIcon={setActiveIcon} />
+        </div>
       </div>
     </div>
   );

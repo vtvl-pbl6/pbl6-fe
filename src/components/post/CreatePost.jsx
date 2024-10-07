@@ -1,0 +1,165 @@
+import React, { useState, useRef, useContext } from "react";
+import { useTranslation } from "react-i18next";
+import "./CreatePost.scss";
+import postAPI from "../../api/postAPI";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import ImageList from "./ImageList";
+import AccountContext from "../../contexts/AccountContext";
+import noAvt from "../../assets/imgs/no_avt.jpg";
+
+const MAX_CHAR = 500;
+
+const CreatePost = ({ isOpen, onClose, setPosts, posts }) => {
+  const { t } = useTranslation();
+  const [files, setFiles] = useState([]);
+  const { account } = useContext(AccountContext);
+  const handleFileChange = (event) => {
+    setFiles([...files, ...Array.from(event.target.files)]);
+  };
+  const [postContent, setPostContent] = useState("");
+  const [visibility, setVisibility] = useState("PUBLIC");
+  const [loading, setLoading] = useState(false);
+  const imageRef = useRef(null);
+
+  const handleContentChange = (e) => {
+    const inputText = e.target.value;
+
+    if (inputText.length > MAX_CHAR) {
+      const truncatedText = inputText.slice(0, MAX_CHAR);
+      setPostContent(truncatedText);
+    } else {
+      setPostContent(inputText);
+    }
+  };
+
+  const handleInput = (e) => {
+    const textarea = e.target;
+    textarea.style.height = "auto";
+    textarea.style.height = `${textarea.scrollHeight}px`;
+    setPostContent(e.target.value);
+  };
+
+  const handleCreatePost = async () => {
+    setLoading(true);
+    try {
+      const formData = new FormData();
+      formData.append("content", postContent);
+      formData.append("visibility", visibility);
+
+      files.forEach((file) => {
+        formData.append("files", file);
+      });
+
+      const res = await postAPI.createPost(formData);
+      if (res.data.error) {
+        toast.error(res.data.error);
+        return;
+      }
+      toast.success(t("post_created_successfully"));
+      setPosts([res.data, ...posts]);
+      onClose();
+      setPostContent("");
+      setFiles([]);
+    } catch (error) {
+      toast.error(error.toString());
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <>
+      <div className="modal">
+        <div className="modal-overlay" onClick={onClose}></div>
+        <div className="modal-content">
+          <div className="modal-header">
+            <h2>{t("new_thread")}</h2>
+          </div>
+          <div className="body-container">
+            <div className="modal-body">
+              <div className="form-control">
+                <div className="form-left">
+                  <div className="avatar">
+                    <img src={noAvt} />
+                    {/* src avt */}
+                  </div>
+                  <div className="vertical-line"></div>
+                  <div className="mini-avatar">
+                    <img src={noAvt} />
+                  </div>
+                </div>
+                <div className="form-right">
+                  <div className="display-name">imRedsan</div>
+                  {/* doi ten acc */}
+                  <div className="input">
+                    <textarea
+                      placeholder={t("what_is_new")}
+                      onChange={handleContentChange}
+                      onInput={handleInput}
+                      value={postContent}
+                      className="textarea"
+                    />
+                    <ImageList
+                      files={files}
+                      setFiles={setFiles}
+                      isEditable={true}
+                    />
+                  </div>
+                  <div className="icon-container">
+                    <label htmlFor="file-upload" className="file-upload-label">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="size-6"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3 20.25h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008H13.5V8.25z"
+                        />
+                      </svg>
+                    </label>
+                    <input
+                      id="file-upload"
+                      type="file"
+                      multiple
+                      onChange={handleFileChange}
+                      style={{ display: "none" }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="modal-footer">
+              <select
+                value={visibility}
+                onChange={(e) => setVisibility(e.target.value)}
+                className="visibility-dropdown"
+              >
+                <option value="PUBLIC">{t("public")}</option>
+                <option value="FRIEND_ONLY">{t("friends_only")}</option>
+                <option value="PRIVATE">{t("private")}</option>
+              </select>
+              <button
+                className="post-button"
+                onClick={handleCreatePost}
+                disabled={loading}
+              >
+                {loading ? t("posting") : t("post")}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ToastContainer />
+    </>
+  );
+};
+
+export default CreatePost;

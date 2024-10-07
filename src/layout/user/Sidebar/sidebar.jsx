@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { ThemeContext } from "../../../contexts/themeContext";
+import AccountContext from "../../../contexts/AccountContext";
 import { Link } from "react-router-dom";
 import {
   HomeFilled,
@@ -15,13 +16,15 @@ import {
 } from "@ant-design/icons";
 import i18n from "../../../i18n";
 import "./sidebar.scss";
+import CreatePost from "../../../components/post/CreatePost";
 
-const Sidebar = ({ activeIcon, setActiveIcon }) => {
-  const { currentTheme, toggleTheme } = useContext(ThemeContext);
+const Sidebar = ({ activeIcon, setActiveIcon, onOpenCreatePost }) => {
+  const { currentTheme, toggleTheme, isDarkMode } = useContext(ThemeContext);
   const [isSettingMenuOpen, setIsSettingMenuOpen] = useState(false);
   const [isAppearanceMenuOpen, setIsAppearanceMenuOpen] = useState(false);
   const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
-
+  const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
+  const { logout } = useContext(AccountContext);
   const iconColor = (iconName) =>
     activeIcon === iconName ? currentTheme.text : currentTheme.gray;
 
@@ -63,6 +66,7 @@ const Sidebar = ({ activeIcon, setActiveIcon }) => {
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
   };
+
   return (
     <div
       className="sidebar"
@@ -88,13 +92,9 @@ const Sidebar = ({ activeIcon, setActiveIcon }) => {
         >
           <SearchOutlined style={{ color: iconColor("search") }} />
         </Link>
-        <Link
-          to="/post"
-          className="sidebar-item"
-          onClick={() => setActiveIcon("post")}
-        >
+        <div className="sidebar-item" onClick={() => setIsCreatePostOpen(true)}>
           <PlusOutlined style={{ color: iconColor("post") }} />
-        </Link>
+        </div>
         <Link
           to="/activity"
           className="sidebar-item"
@@ -103,7 +103,7 @@ const Sidebar = ({ activeIcon, setActiveIcon }) => {
           <HeartOutlined style={{ color: iconColor("activity") }} />
         </Link>
         <Link
-          to="/user"
+          to="/profile "
           className="sidebar-item"
           onClick={() => setActiveIcon("user")}
         >
@@ -135,7 +135,14 @@ const Sidebar = ({ activeIcon, setActiveIcon }) => {
               </div>
               <div className="setting-option">Settings</div>
               <hr style={{ flex: 1, borderColor: currentTheme.gray }} />
-              <div className="setting-option">Log out</div>
+              <div
+                className="setting-option"
+                onClick={async () => {
+                  await logout();
+                }}
+              >
+                Log out
+              </div>
             </div>
             <div className="appearance-menu">
               <div
@@ -144,36 +151,69 @@ const Sidebar = ({ activeIcon, setActiveIcon }) => {
               >
                 <LeftOutlined /> Appearance
               </div>
-              <div className="appearance-options">
+              <div
+                className="appearance-options"
+                style={{
+                  display: "flex",
+                }}
+              >
                 <div
-                  className="setting-option"
-                  onClick={toggleTheme}
                   style={{
                     display: "flex",
+                    flex: 1,
                     justifyContent: "center",
                     alignItems: "center",
-                    border: `1px solid ${currentTheme.borderColor}`,
+                    backgroundColor: isDarkMode ? "#0A0A0A" : "#FAFAFA",
                     borderRadius: "5px",
-                    margin: "5px",
-                    padding: "10px",
+                    cursor: "pointer",
                   }}
                 >
-                  <SunOutlined />
-                </div>
-                <div
-                  className="setting-option"
-                  onClick={toggleTheme}
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    border: `1px solid ${currentTheme.borderColor}`,
-                    borderRadius: "5px",
-                    margin: "5px",
-                    padding: "10px",
-                  }}
-                >
-                  <MoonOutlined />
+                  <div
+                    onClick={() => {
+                      if (isDarkMode) toggleTheme();
+                    }}
+                    style={{
+                      display: "flex",
+                      flex: 1,
+                      justifyContent: "center",
+                      alignItems: "center",
+                      padding: "10px",
+                      backgroundColor: isDarkMode ? "#0A0A0A" : "#F5F5F5",
+                      borderColor: isDarkMode ? "" : "#D0D0D0",
+                      borderWidth: isDarkMode ? "0px" : "1px",
+                      borderStyle: isDarkMode ? "" : "solid",
+                      borderRadius: "5px",
+                    }}
+                  >
+                    <SunOutlined
+                      style={{
+                        color: isDarkMode ? "#777777" : "#000000",
+                      }}
+                    />
+                  </div>
+                  <div
+                    onClick={() => {
+                      if (!isDarkMode) toggleTheme();
+                    }}
+                    style={{
+                      display: "flex",
+                      flex: 1,
+                      justifyContent: "center",
+                      alignItems: "center",
+                      padding: "10px",
+                      backgroundColor: isDarkMode ? "#1E1E1E" : "#FAFAFA",
+                      borderColor: isDarkMode ? "#3e3f3f" : "",
+                      borderWidth: isDarkMode ? "1px" : "",
+                      borderStyle: isDarkMode ? "solid" : "",
+                      borderRadius: "5px",
+                    }}
+                  >
+                    <MoonOutlined
+                      style={{
+                        color: isDarkMode ? "#ffffff" : "#777777",
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -200,6 +240,12 @@ const Sidebar = ({ activeIcon, setActiveIcon }) => {
           </div>
         )}
       </div>
+      {isCreatePostOpen && (
+        <CreatePost
+          isOpen={isCreatePostOpen}
+          onClose={() => setIsCreatePostOpen(false)}
+        />
+      )}
     </div>
   );
 };

@@ -6,7 +6,6 @@ import { useTranslation } from "react-i18next";
 import i18n from "../../../i18n";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { DatePicker } from "antd";
 import BaseButton from "../../../components/base/baseButton";
 import BaseInput from "../../../components/base/baseInput";
 import "./index.scss";
@@ -16,36 +15,25 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [fullname, setFullname] = useState("");
-  const [birthday, setBirthday] = useState(null);
   const { currentTheme } = useContext(ThemeContext);
   const { t } = useTranslation();
-  const onChangeBirthday = (date, dateString) => {
-    setBirthday(date);
-  };
   const handleSignup = () => {
     if (
       email === "" ||
-      fullname === "" ||
       username === "" ||
       password === "" ||
-      confirmPassword === "" ||
-      birthday === null
+      confirmPassword === ""
     ) {
       toast.error(
         `${
           (email === "" && "Email") ||
-          (fullname === "" && "Name") ||
           (password === "" && "Password") ||
           (username === "" && "Username") ||
-          (birthday === null && "Birthday") ||
           (confirmPassword === "" && "Confirm password")
         } can be empty. Please input ${
           (email === "" && "Email") ||
-          (fullname === "" && "Name") ||
           (password === "" && "Password") ||
           (username === "" && "Username") ||
-          (birthday === null && "Birthday") ||
           (confirmPassword === "" && "Confirm password")
         }`
       );
@@ -59,10 +47,9 @@ const Signup = () => {
     }
     var userAccount = {
       email: email,
-      fullname: fullname,
       username: username,
       password: password,
-      birthday: birthday.format("YYYY-MM-DD"),
+      confirm_password: confirmPassword,
     };
     const callAPI = async () => {
       await authAPI
@@ -111,11 +98,6 @@ const Signup = () => {
             onChange={(e) => setEmail(e.target.value)}
           />
           <BaseInput
-            placeholder={t("fullname")}
-            value={fullname}
-            onChange={(e) => setFullname(e.target.value)}
-          />
-          <BaseInput
             placeholder={t("username")}
             containerStyles={{ marginBottom: "10px" }}
             value={username}
@@ -126,13 +108,11 @@ const Signup = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <div className="text-birthday">
-            <DatePicker
-              onChange={onChangeBirthday}
-              disabledDate={disabledDate}
-              value={birthday}
-            />
-          </div>
+          <BaseInput
+            placeholder={t("confirmPassword")}
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
           <BaseButton title={t("signup")} onClick={handleSignup} />
         </form>
         <div

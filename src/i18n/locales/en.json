@@ -19,5 +19,14 @@
   },
   "or": "Or",
   "donHaveAcc": "Don't have an account? ",
-  "haveAcc": "Already have an account? "
+  "haveAcc": "Already have an account? ",
+  "createPost": {
+    "public": "Public",
+    "friends_only": "Only friend",
+    "private": "Private",
+    "what_is_new": " What's new?",
+    "new_thread": "New thread",
+    "posting": " Posting",
+    "post": "Post"
+  }
 }

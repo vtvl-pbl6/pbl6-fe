@@ -2,7 +2,7 @@ import axiosClient from "./axiosClient";
 
 const accountInfoAPI = {
   getInfoByToken: () => {
-    const url = "/account/detail";
+    const url = "/user";
     return axiosClient.application.get(url);
   },
 };

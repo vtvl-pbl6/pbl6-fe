@@ -7,6 +7,7 @@ const theme = {
       gray: "#939393",
       extraLightGray: "#FFFFFF",
       borderColor: "#DFDFDF",
+      bgPost: "#FFFFFF",
     },
     darkMode: {
       background: "#0A0A0A",
@@ -15,6 +16,7 @@ const theme = {
       gray: "#666666",
       extraLightGray: "#1A1A1A",
       borderColor: "#333333",
+      bgPost: "#181818",
     },
     rose: "#EF4444",
     green: "#209d5c",

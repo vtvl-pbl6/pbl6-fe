@@ -3,6 +3,7 @@ import { ThemeContext } from "../../../contexts/themeContext";
 import { useTranslation } from "react-i18next";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import accountInfoAPI from "../../../api/accountAPI";
 import i18n from "../../../i18n";
 import authAPI from "../../../api/authAPI";
 import useAuth from "../../../hooks/useAuth";
@@ -15,7 +16,7 @@ import "./index.scss";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { token, setToken, account } = useAuth();
+  const { token, setToken, account, setAccount } = useAuth();
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
   const { currentTheme } = useContext(ThemeContext);
@@ -42,12 +43,20 @@ const Login = () => {
           toast.error(response.data.errors);
           return;
         }
-
+        accountInfoAPI
+          .getInfoByToken()
+          .then((response) => {
+            setAccount(response.data.data);
+            localStorage.setItem("account", JSON.stringify(response.data.data));
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+        console.log(account);
         if (response.status === 200) {
-          setToken(response.data.token);
-          localStorage.setItem("token", response.data.token);
-          toast.success(t("loginSuccess"));
-          setTimeout(() => navigate("/user-homepage"), 2000);
+          setToken(response.data.data.access_token);
+          localStorage.setItem("token", response.data.data.access_token);
+          navigate("/user-homepage");
         } else {
           toast.error(t("loginFailed"));
         }

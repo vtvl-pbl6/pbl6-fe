@@ -1,0 +1,23 @@
+.actions-container {
+  display: flex;
+  font-size: 14px;
+  gap: 12px;
+  margin: 8px 0;
+}
+
+.actions-container svg {
+  cursor: pointer;
+  transition: fill 0.3s ease;
+}
+
+.actions-container svg:hover {
+  fill: #e74c3c;
+}
+
+.actions-container text {
+  font-size: 14px;
+}
+.num-count {
+  color: #939393;
+  font-size: 13px;
+}

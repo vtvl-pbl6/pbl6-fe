@@ -18,6 +18,15 @@
     "cancel": "Huỷ"
   },
   "or": "Hoặc",
-  "donHaveAcc": "Bạn chưa có tài khoản ư? ",
-  "haveAcc": "Bạn đã có tài khoản? "
+  "donHaveAcc": "Bạn chưa có tài khoản? ",
+  "haveAcc": "Bạn đã có tài khoản? ",
+  "createPost": {
+    "public": "Công khai",
+    "friends_only": " Bạn bè",
+    "private": "Chỉ mình tôi",
+    "what_is_new": " Có gì mới?",
+    "new_thread": "Bài đăng mới",
+    "posting": "Đang xử lí",
+    "post": "Đăng"
+  }
 }

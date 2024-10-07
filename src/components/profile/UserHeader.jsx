@@ -1,113 +1,29 @@
-import {
-  Avatar,
-  Box,
-  Flex,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
-import { Portal } from "@chakra-ui/react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { BsInstagram } from "react-icons/bs";
-import { CgMoreO } from "react-icons/cg";
-
+import "./UserHeader.scss";
+import AccountContext from "../../contexts/AccountContext";
+import { useTranslation } from "react-i18next";
+import { ThemeContext } from "../../contexts/themeContext";
+import noAvt from "../../assets/imgs/no_avt.jpg";
 const UserHeader = () => {
-  const copyURL = () => {
-    const currentURL = window.location.href;
-    navigator.clipboard.writeText(currentURL);
-  };
+  const { account } = useContext(AccountContext);
+  const { t } = useTranslation();
+  const { currentTheme } = useContext(ThemeContext);
   return (
-    <VStack gap={4} alignItems={"start"}>
-      <Flex justifyContent={"space-between"} width={"full"}>
-        <Box>
-          <Text fontSize={"2x1"} fontWeight={"bold"}>
-            {" "}
-            Mark Zuckerberg{" "}
-          </Text>
-          <Flex gap={2} alignItems={"center"}>
-            <Text fontSize={"small"}>markzuckerberg</Text>
-            <Text
-              fontSize={"small"}
-              bg={"gray.dark"}
-              color={"gray.light"}
-              padding={1}
-              borderRadius={"full"}
-            >
-              threads.net
-            </Text>
-          </Flex>
-        </Box>
-        <Box>
-          <Avatar
-            name="Mark Zuckerberg"
-            src="/mark.png"
-            size={{
-              base: "md",
-              md: "lg",
-            }}
-          />
-        </Box>
-      </Flex>
-
-      <Text> Co-founder of Meta </Text>
-      <Flex width={"full"} justifyContent={"space-between"}>
-        <Flex gap={2} alignItems={"center"}>
-          <Text color={"gray.light"}> 3.2k followers </Text>
-          <Box
-            width={1}
-            height={1}
-            bg={"gray.light"}
-            borderRadius={"full"}
-          ></Box>
-          <Link color="gray.light"> instagram.com </Link>
-        </Flex>
-        <Flex>
-          <Box className="icon-container">
-            <BsInstagram size={24} cursor={"pointer"} />
-          </Box>
-          <Box className="icon-container">
-            <Menu>
-              <MenuButton>
-                <CgMoreO size={24} cursor={"pointer"} />
-              </MenuButton>
-              <Portal>
-                <MenuList bg={"gray.dark"}>
-                  <MenuItem bg={"gray.dark"} onClick={copyURL}>
-                    {" "}
-                    Copy Link{" "}
-                  </MenuItem>
-                </MenuList>
-              </Portal>
-            </Menu>
-          </Box>
-        </Flex>
-      </Flex>
-
-      <Flex w={"full"}>
-        <Flex
-          flex={1}
-          borderBottom={"1.5px solid white"}
-          justifyContent={"center"}
-          pb={3}
-          cursor={"pointer"}
-        >
-          <Text fontWeight={"bold"}> Threads </Text>
-        </Flex>
-        <Flex
-          flex={1}
-          borderBottom={"1px solid white"}
-          justifyContent={"center"}
-          color={"gray.light"}
-          pb={3}
-          cursor={"pointer"}
-        >
-          <Text fontWeight={"bold"}> Reposts </Text>
-        </Flex>
-      </Flex>
-    </VStack>
+    <div>
+      <div className="profile-info">
+        <div className="details">
+          <h2 className="username">{account.display_name}</h2>
+          <p className="fullname">{account.first_name}</p>
+          <p className="bio">{account.bio}</p>
+          <p className="followers">46 followers</p>
+        </div>
+        <img src={account.avatar_file || noAvt} className="profile-image" />
+      </div>
+      <Link to="/edit-profile" className="edit-button">
+        Edit Profile
+      </Link>
+    </div>
   );
 };
 

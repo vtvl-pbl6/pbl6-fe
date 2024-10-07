@@ -1,0 +1,39 @@
+.profile-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .profile-image {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+  }
+
+  .details {
+    flex-grow: 1;
+
+    .username {
+      margin-top: 10px;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .handle {
+      margin: 4px 0;
+      color: #666;
+    }
+
+    .followers {
+      margin: 4px 0;
+      color: #666;
+    }
+  }
+}
+.edit-button {
+  display: inline-flex;
+  align-items: center;
+  width: 480px;
+  height: 40px;
+  border: 1px solid gray;
+  border-radius: 10px;
+}

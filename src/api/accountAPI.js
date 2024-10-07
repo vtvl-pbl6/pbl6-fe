@@ -1,9 +1,9 @@
 import axiosClient from "./axiosClient";
 
 const accountInfoAPI = {
-  getInfoByToken: () => {
+  getInfoByToken: async () => {
     const url = "/user";
-    return axiosClient.application.get(url);
+    return await axiosClient.application.get(url);
   },
 };
 

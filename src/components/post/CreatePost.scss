@@ -53,17 +53,21 @@
         margin-right: 12px;
         width: 8%;
 
-        .avatar {
+        .avatar img {
           width: 36px;
+          height: 36px;
+          border-radius: 50%;
         }
         .vertical-line {
-          border-left: 2px solid gray; /* Độ rộng và màu của đường kẻ */
+          border-left: 2px solid #e5e5e5; /* Độ rộng và màu của đường kẻ */
           height: 100%;
-          margin-top: 8px;
-          margin-bottom: 8px;
+          margin-top: 16px;
+          margin-bottom: 16px;
         }
-        .mini-avatar {
+        .mini-avatar img {
           width: 16px;
+          height: 16px;
+          border-radius: 50%;
         }
       }
 
@@ -71,6 +75,8 @@
         display: flex;
         flex: 1;
         flex-direction: column;
+        overflow-x: auto;
+        scrollbar-width: none;
       }
 
       .textarea {

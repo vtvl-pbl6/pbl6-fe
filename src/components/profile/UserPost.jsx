@@ -1,94 +1,99 @@
-import { Avatar, Box, Flex, Image, Text } from "@chakra-ui/react";
+import { Box, Image, Text } from "@chakra-ui/react";
 import { BsThreeDots } from "react-icons/bs";
-import { Link } from "react-router-dom";
 import Actions from "../action/Actions";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import postAPI from "../../api/postAPI";
+import AccountContext from "../../contexts/AccountContext";
+import noAvt from "../../assets/imgs/no_avt.jpg";
+import { TailSpin } from "react-loader-spinner";
+import { ThemeContext } from "../../contexts/themeContext";
 
-const UserPost = ({ postImg, postTitle, likes, replies }) => {
-  const [liked, setliked] = useState(false);
+const UserPost = () => {
+  const { currentTheme } = useContext(ThemeContext);
+  const { account } = useContext(AccountContext);
+  const [posts, setPosts] = useState([]);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  useEffect(() => {
+    const callAPI = async () => {
+      if (!hasMore) return;
+      try {
+        const response = await postAPI.getPostsByAuthor(page, account.id);
+        if (response.data.is_success) {
+          const newPosts = response.data.data;
+          setPosts((prevPosts) => [...prevPosts, ...newPosts]);
+
+          if (newPosts.length === 0) {
+            setHasMore(false);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      }
+    };
+    if (posts.length === 0 || page > 1) {
+      callAPI();
+    }
+  }, [page]);
+
   return (
-    <Link to={"/markzuckerberg/post/1"}>
-      <Flex gap={3} mb={4} py={5}>
-        <Flex flexDirection={"column"} alignItems={"center"}>
-          <Avatar size={"md"} name="Mark Zuckerberg" src="" />
-          <Box width="1px" h={"full"} bg={"gray.light"} my={2}>
-            {" "}
-          </Box>
-          <Box position={"relative"} width={"full"}>
-            <Avatar
-              size={"xs"}
-              name="John"
-              src="https://bit.ly/prosper-baba"
-              position={"absolute"}
-              top={"0px"}
-              left={"15px"}
-              padding={"2px"}
-            />
-            <Avatar
-              size={"xs"}
-              name="Jay"
-              src="https://bit.ly/code-beast"
-              position={"absolute"}
-              bottom={"0px"}
-              right={"-5px"}
-              padding={"2px"}
-            />
-            <Avatar
-              size={"xs"}
-              name="Jimmy"
-              src="https://bit.ly/sage-adebayo"
-              position={"absolute"}
-              bottom={"0px"}
-              left={"4px"}
-              padding={"2px"}
-            />
-          </Box>
-        </Flex>
-        <Flex flex={1} flexDirection={"column"} gap={2}>
-          <Flex justifyContent={"space-between"} w={"full"}>
-            <Flex w={"full"} alignItems={"center"}>
-              <Text fontSize={"sm"} fontWeight={"bold"}>
-                Mark Zuckerberg
-              </Text>
-              <Image src="/tichxanh.png" width={4} height={4} ml={1} />
-            </Flex>
-            <Flex gap={4} alignItems={"center"}>
-              <Text fontStyle={"sm"} color={"gray.light"}>
-                {" "}
-                1d{" "}
-              </Text>
-              <BsThreeDots />
-            </Flex>
-          </Flex>
-          <Text fontSize={"sm"}> {postTitle} </Text>
-          {postImg && (
-            <Box
-              borderRadius={6}
-              overflow={"hidden"}
-              border={"1px solid"}
-              borderColor={"gray.light"}
-            >
-              <Image src={postImg} />
-            </Box>
-          )}
-          <Flex gap={3} my={1}>
-            <Actions liked={liked} setliked={setliked} />
-          </Flex>
-
-          <Flex gap={2} alignItems={"center"}>
-            <Text color={"gray.light"} fontSize={"sm"}>
-              {" "}
-              {replies} replies{" "}
-            </Text>
-            <Box w={0.5} h={0.5} borderRadius={"full"} bg={"gray.light"}></Box>
-            <Text color={"gray.light"} fontSize={"sm"}>
-              {" "}
-              {likes} likes{" "}
-            </Text>
-          </Flex>
-        </Flex>
-      </Flex>
-    </Link>
+    <>
+      {posts.length > 0 ? (
+        posts.map((post, index) => {
+          return (
+            <div className="container-post" key={`${post.id}-${index}`}>
+              <div className="header-post">
+                <div className="user-info">
+                  <Image
+                    src={post.author.avatar_file || noAvt}
+                    className="user-avatar"
+                    name={post.author.display_name}
+                  />
+                  <div
+                    className="user-name"
+                    style={{ color: currentTheme.text }}
+                  >
+                    <Text>{post.author.display_name}</Text>
+                  </div>
+                  <Text className="post-time">
+                    {new Date(post.created_at).toLocaleString()}
+                  </Text>
+                </div>
+                <div className="more">
+                  <BsThreeDots />
+                </div>
+              </div>
+              <div className="post-body">
+                <Text className="post-content">{post.content}</Text>
+                {post.files && post.files.length > 0 && (
+                  <Box className="post-image">
+                    <Image src={post.files} />
+                  </Box>
+                )}
+                <div className="actions">
+                  <Actions liked={false} setLiked={() => {}} />
+                </div>
+              </div>
+            </div>
+          );
+        })
+      ) : (
+        <div className="loading-container">
+          <TailSpin
+            height="25"
+            width="25"
+            color={currentTheme.text}
+            ariaLabel="loading"
+            wrapperStyle={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "50vh",
+            }}
+          />
+        </div>
+      )}
+    </>
   );
 };
 

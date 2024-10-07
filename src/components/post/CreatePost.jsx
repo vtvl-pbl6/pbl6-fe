@@ -20,7 +20,6 @@ const CreatePost = ({ isOpen, onClose, setPosts, posts }) => {
   const [postContent, setPostContent] = useState("");
   const [visibility, setVisibility] = useState("PUBLIC");
   const [loading, setLoading] = useState(false);
-  const imageRef = useRef(null);
 
   const handleContentChange = (e) => {
     const inputText = e.target.value;
@@ -57,10 +56,7 @@ const CreatePost = ({ isOpen, onClose, setPosts, posts }) => {
         return;
       }
       toast.success(t("post_created_successfully"));
-      setPosts([res.data, ...posts]);
       onClose();
-      setPostContent("");
-      setFiles([]);
     } catch (error) {
       toast.error(error.toString());
     } finally {
@@ -76,15 +72,14 @@ const CreatePost = ({ isOpen, onClose, setPosts, posts }) => {
         <div className="modal-overlay" onClick={onClose}></div>
         <div className="modal-content">
           <div className="modal-header">
-            <h2>{t("new_thread")}</h2>
+            <h2>{t("createPost.new_thread")}</h2>
           </div>
           <div className="body-container">
             <div className="modal-body">
               <div className="form-control">
                 <div className="form-left">
                   <div className="avatar">
-                    <img src={noAvt} />
-                    {/* src avt */}
+                    <img src={account.avatar_file || noAvt} />
                   </div>
                   <div className="vertical-line"></div>
                   <div className="mini-avatar">
@@ -92,11 +87,10 @@ const CreatePost = ({ isOpen, onClose, setPosts, posts }) => {
                   </div>
                 </div>
                 <div className="form-right">
-                  <div className="display-name">imRedsan</div>
-                  {/* doi ten acc */}
+                  <div className="display-name"> {account.display_name}</div>
                   <div className="input">
                     <textarea
-                      placeholder={t("what_is_new")}
+                      placeholder={t("createPost.what_is_new")}
                       onChange={handleContentChange}
                       onInput={handleInput}
                       value={postContent}
@@ -142,16 +136,18 @@ const CreatePost = ({ isOpen, onClose, setPosts, posts }) => {
                 onChange={(e) => setVisibility(e.target.value)}
                 className="visibility-dropdown"
               >
-                <option value="PUBLIC">{t("public")}</option>
-                <option value="FRIEND_ONLY">{t("friends_only")}</option>
-                <option value="PRIVATE">{t("private")}</option>
+                <option value="PUBLIC">{t("createPost.public")}</option>
+                <option value="FRIEND_ONLY">
+                  {t("createPost.friends_only")}
+                </option>
+                <option value="PRIVATE">{t("createPost.private")}</option>
               </select>
               <button
                 className="post-button"
                 onClick={handleCreatePost}
                 disabled={loading}
               >
-                {loading ? t("posting") : t("post")}
+                {loading ? t("createPost.posting") : t("createPost.post")}
               </button>
             </div>
           </div>

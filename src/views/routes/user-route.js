@@ -4,8 +4,8 @@ import useAuth from "../../hooks/useAuth";
 
 const UserRoute = () => {
   const { account } = useAuth();
-
-  if (account && account.role === 2) {
+  console.log(account.role);
+  if (account && account.role === "USER") {
     // thay đổi theo role
     return <Outlet />;
   } else {

@@ -1,24 +1,24 @@
-import React, { useContext, useState, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { TailSpin } from "react-loader-spinner";
-import { Box, Image, Text, Button } from "@chakra-ui/react";
+import { Box, Image, Text } from "@chakra-ui/react";
 import { BsThreeDots } from "react-icons/bs";
 import Actions from "../../../components/action/Actions";
 import "./index.scss";
 import noAvt from "../../../assets/imgs/no_avt.jpg";
-import markImg from "../../../assets/imgs/mark.png";
 import { ThemeContext } from "../../../contexts/themeContext";
 import postAPI from "../../../api/postAPI";
 import AccountContext from "../../../contexts/AccountContext";
-import { usePosts } from "../../../contexts/postContext";
+import CreatePost from "../../../components/post/CreatePost";
+import { useTranslation } from "react-i18next";
 
 const Homepage = ({ setActiveIcon }) => {
-  const { posts, setPosts, page, setPage } = usePosts();
-  const [loading, setLoading] = useState();
-  const [hasMore, setHasMore] = useState();
-  const { account } = useContext(AccountContext);
+  const { t } = useTranslation();
+  const { posts, setPosts, page, setPage, account } =
+    useContext(AccountContext);
   const { currentTheme } = useContext(ThemeContext);
-  const containerRef = useRef(null);
+  const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
     setActiveIcon("home");
@@ -26,7 +26,12 @@ const Homepage = ({ setActiveIcon }) => {
       try {
         const response = await postAPI.getPosts(page);
         if (response.data.is_success) {
-          setPosts((prevPosts) => [...prevPosts, ...response.data.data]);
+          const newPosts = response.data.data;
+          setPosts((prevPosts) => [...prevPosts, ...newPosts]);
+
+          if (newPosts.length === 0) {
+            setHasMore(false);
+          }
         }
       } catch (error) {
         console.error("Error fetching posts:", error);
@@ -35,18 +40,30 @@ const Homepage = ({ setActiveIcon }) => {
     if (posts.length === 0 || page > 1) {
       callAPI();
     }
-    const handleScroll = () => {
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-        setPage((prevPage) => prevPage + 1);
+    const handleScroll = (e) => {
+      const container = e.target;
+      if (
+        container.scrollHeight - container.scrollTop <=
+        container.clientHeight
+      ) {
+        if (hasMore) {
+          setPage((prevPage) => prevPage + 1);
+        }
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    const container = document.querySelector(".container-main");
+    if (container) {
+      container.addEventListener("scroll", handleScroll);
+    }
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      if (container) {
+        container.removeEventListener("scroll", handleScroll);
+      }
     };
   }, [page]);
+
   return (
     <div
       className="container-main"
@@ -55,16 +72,16 @@ const Homepage = ({ setActiveIcon }) => {
         color: currentTheme.text,
         "--border-color": currentTheme.borderColor,
       }}
-      ref={containerRef}
     >
-      <div className="create-post">
+      <div className="create-post" onClick={() => setIsCreatePostOpen(true)}>
         <div className="user-avatar-container">
-          <Image src={account.avatar_file || noAvt} className="user-avatar" />
+          <Image src={account?.avatar_file || noAvt} className="user-avatar" />
         </div>
         <input
           type="text"
-          placeholder="What's new?"
+          placeholder={t("createPost.what_is_new")}
           className="input-post"
+          readOnly
           style={{
             backgroundColor: currentTheme.inputBackground,
             color: currentTheme.text,
@@ -77,7 +94,7 @@ const Homepage = ({ setActiveIcon }) => {
             color: currentTheme.text,
           }}
         >
-          Post
+          {t("createPost.post")}
         </button>
       </div>
       {posts.length > 0 ? (
@@ -126,8 +143,27 @@ const Homepage = ({ setActiveIcon }) => {
             width="25"
             color={currentTheme.text}
             ariaLabel="loading"
+            wrapperStyle={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "50vh",
+            }}
           />
         </div>
+      )}
+      {!hasMore && posts.length > 0 && (
+        <div className="no-more-posts">
+          <Text style={{ textAlign: "center", color: currentTheme.text }}>
+            No more threads available
+          </Text>
+        </div>
+      )}
+      {isCreatePostOpen && (
+        <CreatePost
+          isOpen={isCreatePostOpen}
+          onClose={() => setIsCreatePostOpen(false)}
+        />
       )}
     </div>
   );

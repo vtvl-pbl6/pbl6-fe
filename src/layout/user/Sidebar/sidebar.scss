@@ -98,7 +98,7 @@
         display: flex;
         align-items: center;
         cursor: pointer;
-        padding: 10px;
+        padding: 5px;
       }
 
       .appearance-menu,
@@ -108,5 +108,31 @@
         padding: 10px;
       }
     }
+  }
+}
+.language-menu {
+  display: flex;
+  flex-direction: column;
+
+  .lang-option {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    padding: 5px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid gray;
+    &:hover {
+      background-color: var(--border-color);
+    }
+  }
+
+  .lang-options-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 8px;
   }
 }

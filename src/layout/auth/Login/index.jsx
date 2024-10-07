@@ -3,8 +3,6 @@ import { ThemeContext } from "../../../contexts/themeContext";
 import { useTranslation } from "react-i18next";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import accountInfoAPI from "../../../api/accountAPI";
-import i18n from "../../../i18n";
 import authAPI from "../../../api/authAPI";
 import useAuth from "../../../hooks/useAuth";
 import BaseButton from "../../../components/base/baseButton";
@@ -12,14 +10,15 @@ import BaseInput from "../../../components/base/baseInput";
 import validator from "validator";
 import { useNavigate } from "react-router-dom";
 import "./index.scss";
+import axiosClient from "../../../api/axiosClient";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { token, setToken, account, setAccount } = useAuth();
+  const { setToken } = useAuth();
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
-  const { currentTheme } = useContext(ThemeContext);
+  const { currentTheme, isDarkMode } = useContext(ThemeContext);
   const { t } = useTranslation();
 
   const handleLogin = () => {
@@ -43,19 +42,17 @@ const Login = () => {
           toast.error(response.data.errors);
           return;
         }
-        accountInfoAPI
-          .getInfoByToken()
-          .then((response) => {
-            setAccount(response.data.data);
-            localStorage.setItem("account", JSON.stringify(response.data.data));
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-        console.log(account);
         if (response.status === 200) {
-          setToken(response.data.data.access_token);
-          localStorage.setItem("token", response.data.data.access_token);
+          const token = response.data.data.access_token;
+          setToken(token);
+          localStorage.setItem("token", token);
+          axiosClient.application.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${token}`;
+          axiosClient.formData.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${token}`;
+
           navigate("/user-homepage");
         } else {
           toast.error(t("loginFailed"));
@@ -71,9 +68,12 @@ const Login = () => {
   return (
     <div
       className="login-page"
-      style={{ backgroundColor: currentTheme.background }}
+      style={{
+        backgroundColor: currentTheme.background,
+      }}
     >
       <ToastContainer position="top-right" autoClose={2000} theme="colored" />
+
       <div
         className="login-container"
         style={{ backgroundColor: currentTheme.extraLightGray }}

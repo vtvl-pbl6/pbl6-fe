@@ -224,17 +224,19 @@ const Sidebar = ({ activeIcon, setActiveIcon, onOpenCreatePost }) => {
               >
                 <LeftOutlined /> Language
               </div>
-              <div
-                className="setting-option"
-                onClick={() => changeLanguage("en")}
-              >
-                EN
-              </div>
-              <div
-                className="setting-option"
-                onClick={() => changeLanguage("vi")}
-              >
-                VI
+              <div className="lang-options-container">
+                <div
+                  className="lang-option"
+                  onClick={() => changeLanguage("en")}
+                >
+                  EN
+                </div>
+                <div
+                  className="lang-option"
+                  onClick={() => changeLanguage("vi")}
+                >
+                  VI
+                </div>
               </div>
             </div>
           </div>

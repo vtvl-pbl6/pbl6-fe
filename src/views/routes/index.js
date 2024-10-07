@@ -22,22 +22,18 @@ const AllRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Navigate to={"/auth/login"} />} />
-      <Route
-        path="/user-homepage"
-        element={<UserLayout component={UserHomePage} />}
-      />
-      <Route path="/profile" element={<UserLayout component={Profile} />} />
       <Route path="/auth/login" element={<Login />} />
       <Route path="/auth/signup" element={<Signup />} />
       <Route path="/auth/forgot-password" element={<ForgotPassword />} />
 
       {/* User */}
-      {/* <Route element={<UserRoute />}>
+      <Route element={<UserRoute />}>
         <Route
           path="/user-homepage"
           element={<UserLayout component={UserHomePage} />}
         />
-      </Route> */}
+        <Route path="/profile" element={<UserLayout component={Profile} />} />
+      </Route>
 
       {/* Admin */}
       {/* <Route element={<AdminRoute />}>

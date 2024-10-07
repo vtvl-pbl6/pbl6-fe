@@ -5,6 +5,10 @@ const postAPI = {
     const url = `${prefix_url}/thread?page=${page}&limit=${limit}`;
     return await axiosClient.application.get(url);
   },
+  getPostsByAuthor: async (page = 1, author_id) => {
+    const url = `${prefix_url}/thread?page=${page}&limit=6&author_id=${author_id}`;
+    return await axiosClient.application.get(url);
+  },
   getPostDetail: (id) => {
     const url = prefix_url + `/thread/${id}`;
     return axiosClient.application.get(url);

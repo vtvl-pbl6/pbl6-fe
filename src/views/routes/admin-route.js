@@ -5,7 +5,7 @@ import useAuth from "../../hooks/useAuth";
 const AdminRoute = () => {
   const { account } = useAuth();
 
-  if (account && account.role === 2) {
+  if (account && account.role === "ADMIN") {
     // thay đổi theo role
     return <Outlet />;
   } else {

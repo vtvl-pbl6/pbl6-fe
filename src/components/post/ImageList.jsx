@@ -1,41 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { getImageSize } from "react-image-size";
 import "./ImageList.scss";
+
 const ImageList = ({ files, setFiles, isEditable }) => {
   const [listImage, setListImage] = useState([]);
-  const [minHeight, setMinHeight] = useState(0);
 
   useEffect(() => {
     if (files.length > 0) {
       const newImages = files.map((file) => {
         const url = URL.createObjectURL(file);
-        return { file, url, height: 0 };
+        return { file, url };
       });
-
       setListImage(newImages);
     }
   }, [files]);
-
-  useEffect(() => {
-    if (listImage.length > 0) {
-      const fetchImageSizes = async () => {
-        const heights = await Promise.all(
-          listImage.map(async (image) => {
-            try {
-              const { height } = await getImageSize(image.url);
-              return height;
-            } catch (error) {
-              console.error("Error fetching image size:", error);
-              return 0;
-            }
-          })
-        );
-        setMinHeight(Math.min(...heights));
-      };
-
-      fetchImageSizes();
-    }
-  }, [listImage]);
 
   const handleRemoveImage = (index) => {
     const newList = listImage.filter((_, i) => i !== index);
@@ -46,54 +23,67 @@ const ImageList = ({ files, setFiles, isEditable }) => {
   };
 
   return (
-    <div
-      className="scroll-container"
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        flexWrap: "nowrap",
-        overflowX: "scroll",
-        overflowY: "hidden",
-        alignItems: "flex-start",
-        border: "1px solid #ddd",
-        maxHeight: "200px",
-        width: "100%",
-        alignContent: "space-between",
-        gap: "10px",
-      }}
-    >
-      {listImage.map((img, index) => (
-        <div
-          key={index}
-          style={{
-            position: "relative",
-            flexShrink: 0,
-          }}
-        >
-          <img
-            src={img.url}
-            alt={`img-${index}`}
+    <div>
+      <div
+        className="image-grid"
+        style={{
+          display: "flex", // Sử dụng flexbox để xếp ảnh theo hàng ngang
+          gap: "10px",
+          width: "100%",
+          overflowX: "auto",
+          overflowY: "auto", // Kích hoạt cuộn ngang
+          scrollbarWidth: "none", // Ẩn scrollbar trên Firefox
+          whiteSpace: "nowrap", // Không cho phép xuống dòng
+          maxHeight: "430px",
+        }}
+      >
+        {listImage.map((img, index) => (
+          <div
+            key={index}
             style={{
-              height: minHeight,
-              width: "auto",
+              position: "relative",
+              flexShrink: 0, // Đảm bảo các ảnh không co lại
+              width: "auto", // Không đặt chiều rộng cố định
+              height: listImage.length > 1 ? "272px" : "430px", // Nếu có hơn 2 ảnh thì chiều cao là 272px, nếu 2 ảnh trở xuống thì chiều cao là 150px
+              overflow: "hidden",
+              borderRadius: "8px",
             }}
-          />
-          {isEditable && (
-            <button
+          >
+            <img
+              src={img.url}
+              alt={`img-${index}`}
               style={{
-                position: "absolute",
-                top: "1px",
-                right: "9px",
-                border: "none",
-                cursor: "pointer",
+                width: "100%",
+                height: "100%", // Giữ chiều cao cố định
+                objectFit: "cover", // Giữ đúng tỷ lệ nhưng đảm bảo ảnh lấp đầy container
               }}
-              onClick={() => handleRemoveImage(index)}
-            >
-              <span style={{ fontSize: "24px", color: "black" }}>×</span>
-            </button>
-          )}
-        </div>
-      ))}
+            />
+            {isEditable && (
+              <button
+                style={{
+                  position: "absolute",
+                  top: "4px", // Điều chỉnh vị trí trên nếu cần
+                  right: "4px", // Điều chỉnh vị trí phải nếu cần
+                  width: "28px", // Chiều rộng của nút
+                  height: "28px", // Chiều cao của nút
+                  borderRadius: "50%", // Làm tròn góc
+                  backgroundColor: "rgba(35, 33, 30, 0.8)",
+                  backdropFilter: "blur(5px)", // Màu nền
+                  cursor: "pointer", // Thay đổi con trỏ khi di chuột
+                  display: "flex", // Sử dụng flexbox
+                  justifyContent: "center", // Căn giữa nội dung theo chiều ngang
+                  alignItems: "center", // Căn giữa nội dung theo chiều dọc
+                  border: "none", // Bỏ đường viền
+                }}
+                onClick={() => handleRemoveImage(index)}
+              >
+                <span style={{ fontSize: "24px", color: "white" }}>×</span>
+                {/* Điều chỉnh fontSize nếu cần */}
+              </button>
+            )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

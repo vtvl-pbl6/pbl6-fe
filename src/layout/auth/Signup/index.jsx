@@ -15,7 +15,7 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [email, setEmail] = useState("");
-  const { currentTheme } = useContext(ThemeContext);
+  const { currentTheme, isDarkMode } = useContext(ThemeContext);
   const { t } = useTranslation();
   const handleSignup = () => {
     if (
@@ -73,7 +73,7 @@ const Signup = () => {
   return (
     <div
       className="signup-page"
-      style={{ backgroundColor: currentTheme.extraLightGray }}
+      style={{ backgroundColor: currentTheme.background }}
     >
       <ToastContainer
         position="top-right"
@@ -85,9 +85,10 @@ const Signup = () => {
         progress={undefined}
         theme="colored"
       />
+
       <div
         className="signup-container"
-        style={{ backgroundColor: currentTheme.background }}
+        style={{ backgroundColor: currentTheme.extraLightGray }}
       >
         <h2 style={{ color: currentTheme.text }}>{t("welcome")}</h2>
 

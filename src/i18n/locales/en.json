@@ -1,9 +1,32 @@
 {
-    "welcome": "Welcome to the app!",
-    "changeLanguage": "Change Language",
-    "textLogin": "Login",
-    "modal": {
-        "confirm": "Confirm",
-        "cancel": "Cancel"
-    }
+  "welcome": "Let's connect with Threeds!",
+  "comeback": "Welcome back!",
+  "changeLanguage": "Change Language",
+  "textLogin": "Login",
+  "loginSuccess": "Login success",
+  "loginFailed": "Login failed",
+  "signup": "Sign up",
+  "requiredPassword": "Please enter password",
+  "invalidEmail": "Invalid email address",
+  "username": "Username",
+  "password": "Password",
+  "fullname": "Fullname",
+  "email": "Email",
+  "forgotPassword": "Forgot password? ",
+  "modal": {
+    "confirm": "Confirm",
+    "cancel": "Cancel"
+  },
+  "or": "Or",
+  "donHaveAcc": "Don't have an account? ",
+  "haveAcc": "Already have an account? ",
+  "createPost": {
+    "public": "Public",
+    "friends_only": "Only friend",
+    "private": "Private",
+    "what_is_new": " What's new?",
+    "new_thread": "New thread",
+    "posting": " Posting",
+    "post": "Post"
+  }
 }

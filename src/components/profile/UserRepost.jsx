@@ -3,92 +3,40 @@ import { BsThreeDots } from "react-icons/bs";
 import Actions from "../action/Actions";
 import { useContext, useEffect, useState } from "react";
 import postAPI from "../../api/postAPI";
-import AccountContext from "../../contexts/AccountContext";
 import noAvt from "../../assets/imgs/no_avt.jpg";
 import { TailSpin } from "react-loader-spinner";
 import { ThemeContext } from "../../contexts/themeContext";
-import CreatePost from "../post/CreatePost";
+import AccountContext from "../../contexts/AccountContext";
 import { useTranslation } from "react-i18next";
-import ImageList from "../post/ImageList";
 import "./UserPost.scss";
 
 const UserPost = () => {
   const { t } = useTranslation();
   const { currentTheme } = useContext(ThemeContext);
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasMorePosts, setHasMorePosts] = useState(true);
-  const { userPosts, setUserPosts, userPage, setUserPage, account } =
+  const { reposts, setReposts, repostPage, setRepostPage, account } =
     useContext(AccountContext);
-  const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
 
   useEffect(() => {
     const callAPI = async () => {
       try {
-        setIsLoading(true);
-        const response = await postAPI.getPostsByAuthor(userPage, account.id);
+        const response = await postAPI.getListReposts(repostPage, account.id);
         if (response.data.is_success) {
           const newPosts = response.data.data;
-          if (newPosts.length === 0) {
-            setHasMorePosts(false);
-          } else {
-            setUserPosts((prevPosts) => [...prevPosts, ...newPosts]);
-          }
+          setReposts((prevPosts) => [...prevPosts, ...newPosts]);
         }
       } catch (error) {
         console.error("Error fetching posts:", error);
-      } finally {
-        setIsLoading(false);
       }
     };
-    if ((userPosts.length === 0 || userPage > 1) && hasMorePosts) {
+    if (reposts.length === 0 || repostPage > 1) {
       callAPI();
     }
-  }, [userPage]);
-  useEffect(() => {
-    const handleScroll = () => {
-      if (
-        window.innerHeight + document.documentElement.scrollTop >=
-        document.documentElement.offsetHeight - 80
-      ) {
-        if (!isLoading) {
-          setUserPage((prevPage) => prevPage + 1);
-        }
-      }
-    };
+  }, [repostPage]);
 
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [isLoading]);
   return (
     <>
-      <div className="create-post" onClick={() => setIsCreatePostOpen(true)}>
-        <div className="user-avatar-container">
-          <Image src={account?.avatar_file || noAvt} className="user-avatar" />
-        </div>
-        <input
-          type="text"
-          placeholder={t("createPost.what_is_new")}
-          className="input-post"
-          readOnly
-          style={{
-            backgroundColor: currentTheme.inputBackground,
-            color: currentTheme.text,
-          }}
-        />
-        <button
-          className="post-button"
-          style={{
-            backgroundColor: currentTheme.extraLightGray,
-            color: currentTheme.text,
-          }}
-        >
-          {t("createPost.post")}
-        </button>
-      </div>
-      {userPosts.length > 0 ? (
-        userPosts.map((post, index) => {
+      {reposts.length > 0 ? (
+        reposts.map((post, index) => {
           return (
             <div className="container-post" key={`${post.id}-${index}`}>
               <div className="header-post">
@@ -116,11 +64,7 @@ const UserPost = () => {
                 <Text className="post-content">{post.content}</Text>
                 {post.files && post.files.length > 0 && (
                   <Box className="post-image">
-                    <ImageList
-                      files={post.files}
-                      setFiles={() => {}}
-                      isEditable={false}
-                    />
+                    <Image src={post.files} />
                   </Box>
                 )}
                 <div className="actions">
@@ -145,12 +89,6 @@ const UserPost = () => {
             }}
           />
         </div>
-      )}
-      {isCreatePostOpen && (
-        <CreatePost
-          isOpen={isCreatePostOpen}
-          onClose={() => setIsCreatePostOpen(false)}
-        />
       )}
     </>
   );

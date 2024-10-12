@@ -1,17 +1,21 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import "./CreatePost.scss";
 import postAPI from "../../api/postAPI";
 import { ToastContainer, toast } from "react-toastify";
+import { Dropdown, Button, Menu } from "antd";
 import "react-toastify/dist/ReactToastify.css";
 import ImageList from "./ImageList";
 import AccountContext from "../../contexts/AccountContext";
 import noAvt from "../../assets/imgs/no_avt.jpg";
+import BaseButton from "../base/baseButton";
+import { ThemeContext } from "../../contexts/themeContext";
 
 const MAX_CHAR = 500;
 
-const CreatePost = ({ isOpen, onClose, setPosts, posts }) => {
+const CreatePost = ({ isOpen, onClose }) => {
   const { t } = useTranslation();
+  const { currentTheme } = useContext(ThemeContext); // Lấy currentTheme từ context
   const [files, setFiles] = useState([]);
   const { account } = useContext(AccountContext);
   const handleFileChange = (event) => {
@@ -64,6 +68,18 @@ const CreatePost = ({ isOpen, onClose, setPosts, posts }) => {
     }
   };
 
+  const handleVisibilityChange = ({ key }) => {
+    setVisibility(key);
+  };
+
+  const visibilityMenu = (
+    <Menu onClick={handleVisibilityChange}>
+      <Menu.Item key="PUBLIC">{t("createPost.public")}</Menu.Item>
+      <Menu.Item key="FRIEND_ONLY">{t("createPost.friend_only")}</Menu.Item>
+      <Menu.Item key="PRIVATE">{t("createPost.private")}</Menu.Item>
+    </Menu>
+  );
+
   if (!isOpen) return null;
 
   return (
@@ -71,30 +87,54 @@ const CreatePost = ({ isOpen, onClose, setPosts, posts }) => {
       <div className="modal">
         <div className="modal-overlay" onClick={onClose}></div>
         <div className="modal-content">
-          <div className="modal-header">
+          <div className="modal-header" style={{ color: currentTheme.text }}>
             <h2>{t("createPost.new_thread")}</h2>
           </div>
-          <div className="body-container">
-            <div className="modal-body">
-              <div className="form-control">
-                <div className="form-left">
+          <div
+            className="body-container"
+            style={{ backgroundColor: currentTheme.bgPost }}
+          >
+            <div
+              className="modal-body"
+              style={{ backgroundColor: currentTheme.bgPost }}
+            >
+              <div
+                className="form-control"
+                style={{ backgroundColor: currentTheme.bgPost }}
+              >
+                <div
+                  className="form-left"
+                  style={{ backgroundColor: currentTheme.bgPost }}
+                >
                   <div className="avatar">
-                    <img src={account.avatar_file || noAvt} />
+                    <img src={account.avatar_file || noAvt} alt="Avatar" />
                   </div>
                   <div className="vertical-line"></div>
                   <div className="mini-avatar">
-                    <img src={noAvt} />
+                    <img src={noAvt} alt="Mini Avatar" />
                   </div>
                 </div>
                 <div className="form-right">
-                  <div className="display-name"> {account.display_name}</div>
-                  <div className="input">
+                  <div
+                    className="display-name"
+                    style={{ color: currentTheme.text }}
+                  >
+                    {account.display_name}
+                  </div>
+                  <div
+                    className="input"
+                    style={{ backgroundColor: currentTheme.bgPost }}
+                  >
                     <textarea
                       placeholder={t("createPost.what_is_new")}
                       onChange={handleContentChange}
                       onInput={handleInput}
                       value={postContent}
                       className="textarea"
+                      style={{
+                        color: currentTheme.text,
+                        backgroundColor: currentTheme.bgPost,
+                      }}
                     />
                     <ImageList
                       files={files}
@@ -108,13 +148,13 @@ const CreatePost = ({ isOpen, onClose, setPosts, posts }) => {
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
-                        stroke-width="1.5"
+                        strokeWidth="1.5"
                         stroke="currentColor"
-                        class="size-6"
+                        className="size-6"
                       >
                         <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                           d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3 20.25h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008H13.5V8.25z"
                         />
                       </svg>
@@ -131,24 +171,27 @@ const CreatePost = ({ isOpen, onClose, setPosts, posts }) => {
               </div>
             </div>
             <div className="modal-footer">
-              <select
-                value={visibility}
-                onChange={(e) => setVisibility(e.target.value)}
-                className="visibility-dropdown"
-              >
-                <option value="PUBLIC">{t("createPost.public")}</option>
-                <option value="FRIEND_ONLY">
-                  {t("createPost.friends_only")}
-                </option>
-                <option value="PRIVATE">{t("createPost.private")}</option>
-              </select>
-              <button
-                className="post-button"
+              <Dropdown overlay={visibilityMenu} trigger={["hover"]}>
+                <Button
+                  className="visibility-dropdown"
+                  style={{
+                    color: currentTheme.text,
+                    backgroundColor: currentTheme.bgPost,
+                  }}
+                >
+                  {t(`createPost.${visibility.toLowerCase()}`)}
+                </Button>
+              </Dropdown>
+              <BaseButton
+                title={loading ? t("createPost.posting") : t("createPost.post")}
                 onClick={handleCreatePost}
-                disabled={loading}
-              >
-                {loading ? t("createPost.posting") : t("createPost.post")}
-              </button>
+                buttonStyle={{
+                  padding: "0px 0px",
+                  fontSize: "6px",
+                  width: "55px",
+                  height: "30px",
+                }}
+              />
             </div>
           </div>
         </div>

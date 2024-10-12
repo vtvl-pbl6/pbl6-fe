@@ -1,22 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
 import UserHeader from "../../../components/profile/UserHeader";
+import UserRepost from "../../../components/profile/UserRepost";
 import UserPost from "../../../components/profile/UserPost";
-import { Image } from "@chakra-ui/react";
 import { ThemeContext } from "../../../contexts/themeContext";
-import noAvt from "../../../assets/imgs/no_avt.jpg";
 import "./index.scss";
-import CreatePost from "../../../components/post/CreatePost";
 import { useTranslation } from "react-i18next";
-import AccountContext from "../../../contexts/AccountContext";
 
 const UserPage = ({ setActiveIcon }) => {
   const { t } = useTranslation();
-  const { account } = useContext(AccountContext);
   const { currentTheme } = useContext(ThemeContext);
-  const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("threads");
+
   useEffect(() => {
     setActiveIcon("user");
-  });
+  }, [setActiveIcon]);
 
   return (
     <div
@@ -25,6 +22,7 @@ const UserPage = ({ setActiveIcon }) => {
         backgroundColor: currentTheme.bgPost,
         color: currentTheme.text,
         "--border-color": currentTheme.borderColor,
+        "--text-color": currentTheme.text,
       }}
     >
       <div className="profile-header">
@@ -32,41 +30,25 @@ const UserPage = ({ setActiveIcon }) => {
           <UserHeader />
         </div>
       </div>
-      <div className="create-post" onClick={() => setIsCreatePostOpen(true)}>
-        <div className="user-avatar-container">
-          <Image src={account?.avatar_file || noAvt} className="user-avatar" />
-        </div>
-        <input
-          type="text"
-          placeholder={t("createPost.what_is_new")}
-          className="input-post"
-          readOnly
-          style={{
-            backgroundColor: currentTheme.inputBackground,
-            color: currentTheme.text,
-          }}
-        />
-        <button
-          className="post-button"
-          style={{
-            backgroundColor: currentTheme.extraLightGray,
-            color: currentTheme.text,
-          }}
+      <div className="tab-container">
+        <div
+          className={`tab ${activeTab === "threads" ? "active" : ""}`}
+          onClick={() => setActiveTab("threads")}
         >
-          {t("createPost.post")}
-        </button>
+          {t("profile.Threads")}
+        </div>
+        <div
+          className={`tab ${activeTab === "reposts" ? "active" : ""}`}
+          onClick={() => setActiveTab("reposts")}
+        >
+          {t("profile.Reposts")}
+        </div>
       </div>
       <div className="profile-body-post">
         <div className="profile-post">
-          <UserPost />
+          {activeTab === "threads" ? <UserPost /> : <UserRepost />}
         </div>
       </div>
-      {isCreatePostOpen && (
-        <CreatePost
-          isOpen={isCreatePostOpen}
-          onClose={() => setIsCreatePostOpen(false)}
-        />
-      )}
     </div>
   );
 };

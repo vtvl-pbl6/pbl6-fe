@@ -18,18 +18,44 @@ const Login = () => {
   const { setToken } = useAuth();
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
-  const { currentTheme, isDarkMode } = useContext(ThemeContext);
+  const { currentTheme } = useContext(ThemeContext);
   const { t } = useTranslation();
 
   const handleLogin = () => {
     setErrors({});
+
+    if (validator.isEmpty(email)) {
+      setErrors((prev) => ({ ...prev, email: t("validation.emailRequired") }));
+      return;
+    }
+
     if (!validator.isEmail(email)) {
-      setErrors((prev) => ({ ...prev, email: t("invalidEmail") }));
+      setErrors((prev) => ({ ...prev, email: t("validation.invalidEmail") }));
       return;
     }
 
     if (validator.isEmpty(password)) {
-      setErrors((prev) => ({ ...prev, password: t("requiredPassword") }));
+      setErrors((prev) => ({
+        ...prev,
+        password: t("validation.passwordRequired"),
+      }));
+      return;
+    }
+
+    if (password.length < 6) {
+      setErrors((prev) => ({
+        ...prev,
+        password: t("validation.passwordMinLength"),
+      }));
+      return;
+    }
+
+    const passwordCriteria = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,32}$/;
+    if (!passwordCriteria.test(password)) {
+      setErrors((prev) => ({
+        ...prev,
+        password: t("validation.passwordCriteria"),
+      }));
       return;
     }
 
@@ -42,6 +68,7 @@ const Login = () => {
           toast.error(response.data.errors);
           return;
         }
+
         if (response.status === 200) {
           const token = response.data.data.access_token;
           setToken(token);
@@ -62,6 +89,7 @@ const Login = () => {
         toast.error(t("loginFailed"));
       }
     };
+
     callAPI();
   };
 
@@ -80,7 +108,13 @@ const Login = () => {
       >
         <h2 style={{ color: currentTheme.text }}>{t("comeback")}</h2>
 
-        <form className="login-form" onSubmit={handleLogin}>
+        <form
+          className="login-form"
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleLogin();
+          }}
+        >
           <BaseInput
             placeholder={t("email")}
             containerStyles={{ marginBottom: "10px" }}

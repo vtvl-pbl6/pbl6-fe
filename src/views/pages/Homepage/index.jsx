@@ -18,7 +18,6 @@ const Homepage = ({ setActiveIcon }) => {
     useContext(AccountContext);
   const { currentTheme } = useContext(ThemeContext);
   const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
     setActiveIcon("home");
@@ -28,10 +27,6 @@ const Homepage = ({ setActiveIcon }) => {
         if (response.data.is_success) {
           const newPosts = response.data.data;
           setPosts((prevPosts) => [...prevPosts, ...newPosts]);
-
-          if (newPosts.length === 0) {
-            setHasMore(false);
-          }
         }
       } catch (error) {
         console.error("Error fetching posts:", error);
@@ -46,9 +41,7 @@ const Homepage = ({ setActiveIcon }) => {
         container.scrollHeight - container.scrollTop <=
         container.clientHeight
       ) {
-        if (hasMore) {
-          setPage((prevPage) => prevPage + 1);
-        }
+        setPage((prevPage) => prevPage + 1);
       }
     };
 
@@ -137,25 +130,9 @@ const Homepage = ({ setActiveIcon }) => {
           );
         })
       ) : (
-        <div className="loading-container">
-          <TailSpin
-            height="25"
-            width="25"
-            color={currentTheme.text}
-            ariaLabel="loading"
-            wrapperStyle={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "50vh",
-            }}
-          />
-        </div>
-      )}
-      {!hasMore && posts.length > 0 && (
-        <div className="no-more-posts">
+        <div className="no-posts">
           <Text style={{ textAlign: "center", color: currentTheme.text }}>
-            No more threads available
+            {t("post.no_more_posts")}
           </Text>
         </div>
       )}

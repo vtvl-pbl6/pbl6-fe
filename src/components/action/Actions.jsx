@@ -62,27 +62,7 @@ const Actions = ({ liked, setliked }) => {
         role="img"
         viewBox="0 0 24 24"
         width="16"
-      >
-        <title>Share</title>
-        <line
-          color="#939393"
-          stroke="currentColor"
-          strokeLinejoin="round"
-          strokeWidth="2"
-          x1="22"
-          x2="9.218"
-          y1="3"
-          y2="10.083"
-        ></line>
-        <polygon
-          color="#939393"
-          fill="none"
-          points="11.698 20.334 22 3.001 2 3.001 9.218 10.084 11.698 20.334"
-          stroke="currentColor"
-          strokeLinejoin="round"
-          strokeWidth="2"
-        ></polygon>
-      </svg>
+      ></svg>
     </Flex>
   );
 };

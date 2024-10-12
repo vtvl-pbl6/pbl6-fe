@@ -1,14 +1,14 @@
 import React, { useContext, useState } from "react";
-import { ThemeContext } from "../../../contexts/themeContext";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import validator from "validator";
 import authAPI from "../../../api/authAPI";
 import BaseButton from "../../../components/base/baseButton";
 import BaseInput from "../../../components/base/baseInput";
-import validator from "validator";
+import { ThemeContext } from "../../../contexts/themeContext";
 import "./index.scss";
-import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [username, setUsername] = useState("");
@@ -85,15 +85,21 @@ const Signup = () => {
       try {
         const response = await authAPI.register(userAccount);
 
-        if (response.data.errors) {
-          toast.error(t("validation.emailAlreadyRegistered"));
-        } else {
+        const { is_success } = response.data
+
+        if(is_success) {
           toast.success(t("accountRegistered"));
           setTimeout(navigate("/auth/login"), 1000);
         }
       } catch (error) {
-        console.error(error);
-        toast.error(t("signupFailed"));
+        if (error.response.data) {
+          const {errors} = error.response.data
+          errors.map(error => {
+            toast.error(error.message);
+          })
+        } else {
+          toast.error(t("signupFailed"));
+        }
       }
     };
 

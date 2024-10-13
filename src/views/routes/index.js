@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import LoadableComponent from "../../components/loadable-component";
 import UserRoute from "./user-route.js";
 // import AdminRoute from "./admin-route.js";
@@ -18,6 +18,8 @@ const ForgotPassword = LoadableComponent(() =>
   import("../../layout/auth/ForgotPassword/index.jsx")
 );
 const Profile = LoadableComponent(() => import("../pages/Profile/index.jsx"));
+
+const TestSocket = LoadableComponent(() => import('../pages/TestSocket/index.jsx'))
 const AllRoutes = () => {
   return (
     <Routes>
@@ -33,6 +35,7 @@ const AllRoutes = () => {
           element={<UserLayout component={UserHomePage} />}
         />
         <Route path="/profile" element={<UserLayout component={Profile} />} />
+        <Route path="/test-socket" element={<UserLayout component={TestSocket} />} />
       </Route>
 
       {/* Admin */}

@@ -20,6 +20,10 @@ export const AuthProvider = ({ children }) => {
   );
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(1);
+  const [userPosts, setUserPosts] = useState([]);
+  const [userPage, setUserPage] = useState(1);
+  const [reposts, setReposts] = useState([]);
+  const [repostPage, setRepostPage] = useState(1);
 
   const logout = async () => {
     try {
@@ -52,9 +56,17 @@ export const AuthProvider = ({ children }) => {
       setPosts,
       page,
       setPage,
+      userPosts,
+      setUserPosts,
+      userPage,
+      setUserPage,
+      reposts,
+      setReposts,
+      repostPage,
+      setRepostPage,
       logout,
     }),
-    [token, account, posts, page]
+    [token, account, posts, page, userPosts, userPage, reposts, repostPage]
   );
 
   useEffect(() => {

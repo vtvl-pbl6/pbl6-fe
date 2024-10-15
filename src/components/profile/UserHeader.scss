@@ -1,39 +1,83 @@
-.profile-info {
+.profile-container {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  .profile-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px;
+    .profile-image {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+    }
+    .details {
+      flex-grow: 1;
 
-  .profile-image {
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
+      .profile-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        .profile-info {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin: 10px;
+          .profile-image {
+            width: 80px;
+            height: 80px;
+            margin-left: 20px;
+            border-radius: 50%;
+          }
+          .details {
+            flex-grow: 1;
+            margin-left: 10px;
+
+            .username {
+              margin-top: 10px;
+              font-size: 24px;
+              font-weight: bold;
+            }
+
+            .handle {
+              margin: 4px 0;
+              color: #666;
+            }
+
+            .followers {
+              margin: 4px 0;
+              color: #666;
+            }
+          }
+        }
+      }
+
+      .username {
+        margin-top: 10px;
+        font-size: 22px;
+        font-weight: bold;
+      }
+
+      .handle {
+        margin: 4px 0;
+        color: #666;
+      }
+
+      .followers {
+        margin: 4px 0;
+        color: #666;
+      }
+    }
   }
 
-  .details {
-    flex-grow: 1;
-
-    .username {
-      margin-top: 10px;
-      font-size: 22px;
-      font-weight: bold;
-    }
-
-    .handle {
-      margin: 4px 0;
-      color: #666;
-    }
-
-    .followers {
-      margin: 4px 0;
-      color: #666;
-    }
+  .edit-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    margin: 15px;
+    border: 1px solid gray;
+    border-radius: 10px;
   }
-}
-.edit-button {
-  display: inline-flex;
-  align-items: center;
-  width: 480px;
-  height: 40px;
-  border: 1px solid gray;
-  border-radius: 10px;
 }

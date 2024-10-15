@@ -6,8 +6,9 @@
   "loginSuccess": "Đăng nhập thành công",
   "loginFailed": "Đăng nhập thất bại",
   "signup": "Đăng kí",
-  "requiredPassword": "Vui lòng nhập mật khẩu",
-  "invalidEmail": "Địa chỉ email không đúng",
+  "signupFailed": "Đăng kí thất bại",
+  "accountRegistered": "Đăng kí tài khoản thành công",
+  "confirmPassword": "Nhập lại mật khẩu",
   "username": "Tên người dùng",
   "password": "Mật khẩu",
   "fullname": "Họ và tên",
@@ -22,11 +23,33 @@
   "haveAcc": "Bạn đã có tài khoản? ",
   "createPost": {
     "public": "Công khai",
-    "friends_only": " Bạn bè",
+    "friend_only": " Bạn bè",
     "private": "Chỉ mình tôi",
     "what_is_new": " Có gì mới?",
     "new_thread": "Bài đăng mới",
     "posting": "Đang xử lí",
     "post": "Đăng"
+  },
+  "validation": {
+    "requiredPassword": "Vui lòng nhập mật khẩu",
+    "invalidEmail": "Địa chỉ email không đúng",
+    "usernameRequired": "Tên đăng nhập là bắt buộc",
+    "usernameMinLength": "Tên đăng nhập phải lớn hơn 5 ký tự",
+    "emailRequired": "Email là bắt buộc",
+    "passwordRequired": "Mật khẩu là bắt buộc",
+    "passwordMinLength": "Mật khẩu phải có ít nhất 6 ký tự",
+    "confirmPasswordRequired": "Xác nhận mật khẩu là bắt buộc",
+    "passwordMismatch": "Mật khẩu không khớp",
+    "passwordCriteria": "Mật khẩu phải chứa ít nhất một chữ cái viết hoa, một chữ cái thường, một chữ số, không có khoảng trắng và có độ dài từ 8 đến 32 ký tự"
+  },
+  "profile": {
+    "follower": " Người theo dõi",
+    "followers": " Người theo dõi",
+    "editProfile": " Chỉnh sửa thông tin",
+    "Threads": "Bài đăng của tôi",
+    "Reposts": "Bài đăng lại"
+  },
+  "post": {
+    "no_more_posts": "Không có bài đăng nào cũ hơn"
   }
 }

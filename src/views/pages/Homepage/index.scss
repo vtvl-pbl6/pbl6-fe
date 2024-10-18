@@ -1,45 +1,16 @@
 .container-main {
+  scrollbar-width: none;
   position: relative;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  width: 580px;
+  margin-top: 20px;
   min-height: 100vh;
   border: 1px solid var(--border-color);
 }
-.create-post {
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  gap: 10px;
 
-  border-bottom: 1px solid var(--border-color);
-  .user-avatar-container {
-    width: 30px;
-    height: 30px;
-  }
-
-  .user-avatar {
-    border-radius: 50%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .input-post {
-    border: none;
-    outline: none;
-    font-size: 14px;
-    background-color: transparent;
-    color: #808080;
-  }
-  .post-button {
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    margin-left: 280px;
-    padding: 5px 13px;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-}
 .container-post {
   padding: 10px;
   display: flex;
@@ -69,13 +40,6 @@
   }
 }
 
-.user-avatar {
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  object-fit: cover;
-}
-
 .more {
   font-size: 0.875rem;
   color: #939393;
@@ -85,7 +49,6 @@
   border-radius: 7px;
   overflow: hidden;
   width: 100%;
-  border: 1px solid var(--border-color);
 }
 .post-image img {
   border-radius: 7px;
@@ -105,4 +68,39 @@
   flex: 1;
   justify-content: center;
   align-items: center;
+}
+.create-post {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  gap: 10px;
+
+  border-bottom: 1px solid var(--border-color);
+  .user-avatar-container {
+    width: 30px;
+    height: 30px;
+  }
+
+  .user-avatar {
+    border-radius: 50%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .input-post {
+    border: none;
+    outline: none;
+    font-size: 14px;
+    background-color: transparent;
+    color: #808080;
+  }
+  .post-button {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin-left: 315px;
+    padding: 5px 13px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+  }
 }

@@ -75,19 +75,16 @@ const UserPost = () => {
           );
         })
       ) : (
-        <div className="loading-container">
-          <TailSpin
-            height="25"
-            width="25"
-            color={currentTheme.text}
-            ariaLabel="loading"
-            wrapperStyle={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "50vh",
+        <div className="no-posts">
+          <Text
+            style={{
+              textAlign: "center",
+              margin: "20px",
+              color: currentTheme.text,
             }}
-          />
+          >
+            {t("post.no_more_reposts")}
+          </Text>
         </div>
       )}
     </>

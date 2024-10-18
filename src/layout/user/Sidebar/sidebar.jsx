@@ -18,7 +18,7 @@ import i18n from "../../../i18n";
 import "./sidebar.scss";
 import CreatePost from "../../../components/post/CreatePost";
 
-const Sidebar = ({ activeIcon, setActiveIcon, onOpenCreatePost }) => {
+const Sidebar = ({ activeIcon, setActiveIcon }) => {
   const { currentTheme, toggleTheme, isDarkMode } = useContext(ThemeContext);
   const [isSettingMenuOpen, setIsSettingMenuOpen] = useState(false);
   const [isAppearanceMenuOpen, setIsAppearanceMenuOpen] = useState(false);
@@ -92,8 +92,15 @@ const Sidebar = ({ activeIcon, setActiveIcon, onOpenCreatePost }) => {
         >
           <SearchOutlined style={{ color: iconColor("search") }} />
         </Link>
-        <div className="sidebar-item" onClick={() => setIsCreatePostOpen(true)}>
-          <PlusOutlined style={{ color: iconColor("post") }} />
+        <div
+          className="sidebar-item"
+          style={{ backgroundColor: currentTheme.lightGray }}
+          onClick={() => setIsCreatePostOpen(true)}
+        >
+          <PlusOutlined
+            className="plus-icon"
+            style={{ color: iconColor("post") }}
+          />
         </div>
         <Link
           to="/activity"
@@ -128,13 +135,27 @@ const Sidebar = ({ activeIcon, setActiveIcon, onOpenCreatePost }) => {
           >
             <div className="settings-menu">
               <div className="setting-option" onClick={openAppearanceMenu}>
-                Appearance <RightOutlined />
+                Appearance{" "}
+                <RightOutlined
+                  style={{
+                    fontSize: "13px",
+                    color: currentTheme.gray,
+                    marginLeft: "84px",
+                  }}
+                />
               </div>
               <div className="setting-option" onClick={openLanguageMenu}>
-                Language <RightOutlined />
+                Language{" "}
+                <RightOutlined
+                  style={{
+                    fontSize: "13px",
+                    color: currentTheme.gray,
+                    marginLeft: "100px",
+                  }}
+                />
               </div>
               <div className="setting-option">Settings</div>
-              <hr style={{ flex: 1, borderColor: currentTheme.gray }} />
+              <hr style={{ flex: 1, borderColor: currentTheme.borderColor }} />
               <div
                 className="setting-option"
                 onClick={async () => {
@@ -149,11 +170,19 @@ const Sidebar = ({ activeIcon, setActiveIcon, onOpenCreatePost }) => {
                 className="back-option"
                 onClick={() => setIsAppearanceMenuOpen(false)}
               >
-                <LeftOutlined /> Appearance
+                <LeftOutlined
+                  style={{
+                    fontSize: "13px",
+                    color: currentTheme.gray,
+                    marginRight: "40px",
+                  }}
+                />{" "}
+                Appearance
               </div>
               <div
                 className="appearance-options"
                 style={{
+                  marginTop: "10px",
                   display: "flex",
                 }}
               >
@@ -222,7 +251,14 @@ const Sidebar = ({ activeIcon, setActiveIcon, onOpenCreatePost }) => {
                 className="back-option"
                 onClick={() => setIsLanguageMenuOpen(false)}
               >
-                <LeftOutlined /> Language
+                <LeftOutlined
+                  style={{
+                    fontSize: "13px",
+                    color: currentTheme.gray,
+                    marginRight: "50px",
+                  }}
+                />{" "}
+                Language
               </div>
               <div className="lang-options-container">
                 <div

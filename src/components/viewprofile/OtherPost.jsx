@@ -1,75 +1,69 @@
-import React, { useState } from "react";
-import authAPI from "../../../api/authAPI";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { Box, Image, Text } from "@chakra-ui/react";
 import { BsThreeDots } from "react-icons/bs";
-import Actions from "../../../components/action/Actions";
-import "./index.scss";
-import noAvt from "../../../assets/imgs/no_avt.jpg";
-import { ThemeContext } from "../../../contexts/themeContext";
-import postAPI from "../../../api/postAPI";
-import AccountContext from "../../../contexts/AccountContext";
-import CreatePost from "../../../components/post/CreatePost";
+import Actions from "../action/Actions";
+import { useContext, useEffect, useState } from "react";
+import postAPI from "../../api/postAPI";
+import AccountContext from "../../contexts/AccountContext";
+import noAvt from "../../assets/imgs/no_avt.jpg";
+import { TailSpin } from "react-loader-spinner";
+import { ThemeContext } from "../../contexts/themeContext";
+// import CreatePost from "../post/CreatePost";
 import { useTranslation } from "react-i18next";
+import ImageList from "../post/ImageList";
+import "./OtherPost.scss";
 
-const Homepage = ({ setActiveIcon }) => {
+const OtherPost = () => {
   const { t } = useTranslation();
-  const { posts, setPosts, page, setPage, account } =
-    useContext(AccountContext);
   const { currentTheme } = useContext(ThemeContext);
-  const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasMorePosts, setHasMorePosts] = useState(true);
+  const { userPosts, setUserPosts, userPage, setUserPage, account } =
+    useContext(AccountContext);
+  // const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
 
   useEffect(() => {
-    setActiveIcon("home");
     const callAPI = async () => {
       try {
-        const response = await postAPI.getPosts(page);
+        setIsLoading(true);
+        const response = await postAPI.getPostsByAuthor(userPage, account.id);
         if (response.data.is_success) {
           const newPosts = response.data.data;
-          setPosts((prevPosts) => [...prevPosts, ...newPosts]);
+          if (newPosts.length === 0) {
+            setHasMorePosts(false);
+          } else {
+            setUserPosts((prevPosts) => [...prevPosts, ...newPosts]);
+          }
         }
       } catch (error) {
         console.error("Error fetching posts:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
-    if (posts.length === 0 || page > 1) {
+    if ((userPosts.length === 0 || userPage > 1) && hasMorePosts) {
       callAPI();
     }
-    const handleScroll = (e) => {
-      const container = e.target;
+  }, [userPage]);
+  useEffect(() => {
+    const handleScroll = () => {
       if (
-        container.scrollHeight - container.scrollTop <=
-        container.clientHeight
+        window.innerHeight + document.documentElement.scrollTop >=
+        document.documentElement.offsetHeight - 80
       ) {
-        setPage((prevPage) => prevPage + 1);
+        if (!isLoading) {
+          setUserPage((prevPage) => prevPage + 1);
+        }
       }
     };
 
-    const container = document.querySelector(".container-main");
-    if (container) {
-      container.addEventListener("scroll", handleScroll);
-    }
-
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      if (container) {
-        container.removeEventListener("scroll", handleScroll);
-      }
+      window.removeEventListener("scroll", handleScroll);
     };
-  }, [page]);
-const Homepage = () => {
+  }, [isLoading]);
   return (
-    // <div>
-    //   <h1>Hello World</h1>
-    <div
-      className="container-main"
-      style={{
-        backgroundColor: currentTheme.bgPost,
-        color: currentTheme.text,
-        "--border-color": currentTheme.borderColor,
-      }}
-    >
-      <div className="create-post" onClick={() => setIsCreatePostOpen(true)}>
+    <>
+      {/* <div className="create-post" onClick={() => setIsCreatePostOpen(true)}>
         <div className="user-avatar-container">
           <Image src={account?.avatar_file || noAvt} className="user-avatar" />
         </div>
@@ -92,9 +86,9 @@ const Homepage = () => {
         >
           {t("createPost.post")}
         </button>
-      </div>
-      {posts.length > 0 ? (
-        posts.map((post, index) => {
+      </div> */}
+      {userPosts.length > 0 ? (
+        userPosts.map((post, index) => {
           return (
             <div className="container-post" key={`${post.id}-${index}`}>
               <div className="header-post">
@@ -122,7 +116,11 @@ const Homepage = () => {
                 <Text className="post-content">{post.content}</Text>
                 {post.files && post.files.length > 0 && (
                   <Box className="post-image">
-                    <Image src={post.files} />
+                    <ImageList
+                      files={post.files}
+                      setFiles={() => {}}
+                      isEditable={false}
+                    />
                   </Box>
                 )}
                 <div className="actions">
@@ -133,26 +131,29 @@ const Homepage = () => {
           );
         })
       ) : (
-        <div className="no-posts">
-          <Text
-            style={{
-              textAlign: "center",
-              margin: "20px",
-              color: currentTheme.text,
+        <div className="loading-container">
+          <TailSpin
+            height="25"
+            width="25"
+            color={currentTheme.text}
+            ariaLabel="loading"
+            wrapperStyle={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "50vh",
             }}
-          >
-            {t("post.no_more_posts")}
-          </Text>
+          />
         </div>
       )}
-      {isCreatePostOpen && (
+      {/* {isCreatePostOpen && (
         <CreatePost
           isOpen={isCreatePostOpen}
           onClose={() => setIsCreatePostOpen(false)}
         />
-      )}
-    </div>
+      )} */}
+    </>
   );
 };
 
-export default Homepage;
+export default OtherPost;

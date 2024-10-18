@@ -1,0 +1,50 @@
+body {
+  display: flex;
+  justify-content: center;
+}
+
+.container-main {
+  scrollbar-width: none;
+  position: relative;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  width: 700px;
+
+  //border: 1px solid var(--border-color);
+  
+  border: 1px solid black;
+}
+
+.profile-header {
+  border-bottom: 1px solid var(--border-color);
+  //border-bottom: 1px solid black;
+}
+
+.profile-body-post {
+  flex: 1;
+}
+.tab-container {
+  display: flex;
+  justify-content: space-around;
+  border-bottom: 1px solid var(--border-color);
+  //border-bottom: 1px solid black;
+}
+
+.tab {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 270px;
+  cursor: pointer;
+  transition: color 0.5s;
+}
+
+.tab.active {
+  font-weight: bold;
+  border-bottom: 1px solid var(--text-color);
+}

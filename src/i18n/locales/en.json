@@ -50,6 +50,13 @@
     "Reposts": "Reposts"
   },
   "post": {
-    "no_more_posts": "No posts available"
+    "no_more_posts": "No posts available",
+    "no_more_reposts": "No reposts available"
+  },
+  "activity": {
+    "follow": "Follows",
+    "comment": "Comment",
+    "repost": "Reposts",
+    "follow_back": "Follow back"
   }
 }

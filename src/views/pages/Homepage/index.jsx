@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
-import { TailSpin } from "react-loader-spinner";
 import { Box, Image, Text } from "@chakra-ui/react";
 import { BsThreeDots } from "react-icons/bs";
 import Actions from "../../../components/action/Actions";
@@ -131,7 +130,13 @@ const Homepage = ({ setActiveIcon }) => {
         })
       ) : (
         <div className="no-posts">
-          <Text style={{ textAlign: "center", color: currentTheme.text }}>
+          <Text
+            style={{
+              textAlign: "center",
+              margin: "20px",
+              color: currentTheme.text,
+            }}
+          >
             {t("post.no_more_posts")}
           </Text>
         </div>

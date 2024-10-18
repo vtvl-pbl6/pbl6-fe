@@ -1,0 +1,38 @@
+.container-main {
+  scrollbar-width: none;
+  position: relative;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid var(--border-color);
+}
+
+.profile-header {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.profile-body-post {
+  flex: 1;
+}
+.tab-container {
+  display: flex;
+  justify-content: space-around;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.tab {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 270px;
+  cursor: pointer;
+  transition: color 0.5s;
+}
+
+.tab.active {
+  font-weight: bold;
+  border-bottom: 1px solid var(--text-color);
+}

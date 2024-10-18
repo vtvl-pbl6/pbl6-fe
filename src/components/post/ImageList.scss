@@ -1,0 +1,74 @@
+.scroll-container {
+  scrollbar-width: none;
+}
+
+.image-thread {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+.image-grid {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: auto;
+  white-space: nowrap;
+  max-height: 430px;
+  scrollbar-width: none;
+}
+.image-list {
+  position: relative;
+  flex-shrink: 0;
+  width: auto;
+  overflow: hidden;
+  border-radius: 8px;
+  .image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .button-image {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: rgba(35, 33, 30, 0.8);
+    backdrop-filter: blur(5px);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+  }
+  .span-x {
+    font-size: 24px;
+    color: white;
+  }
+}
+.image-container {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.image-item {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.remove-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: black;
+}

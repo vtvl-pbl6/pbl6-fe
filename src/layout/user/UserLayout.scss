@@ -1,0 +1,28 @@
+.layout-wrapper {
+  display: flex;
+}
+
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 4%;
+  height: 100vh;
+  padding: 5px;
+  z-index: 1000;
+}
+
+.content-body {
+  margin-left: 4%;
+  width: 96%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content-wrapper {
+  overflow: auto;
+  max-width: 550px;
+  box-sizing: border-box;
+}

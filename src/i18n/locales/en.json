@@ -1,0 +1,55 @@
+{
+  "welcome": "Let's connect with Threeds!",
+  "comeback": "Welcome back!",
+  "changeLanguage": "Change Language",
+  "textLogin": "Login",
+  "loginSuccess": "Login success",
+  "loginFailed": "Login failed",
+  "signup": "Sign up",
+  "confirmPassword": "Confirm password",
+  "signupFailed": "Sign up failed",
+  "accountRegistered": "Account registered successfully",
+  "username": "Username",
+  "password": "Password",
+  "fullname": "Fullname",
+  "email": "Email",
+  "forgotPassword": "Forgot password? ",
+  "modal": {
+    "confirm": "Confirm",
+    "cancel": "Cancel"
+  },
+  "or": "Or",
+  "donHaveAcc": "Don't have an account? ",
+  "haveAcc": "Already have an account? ",
+  "createPost": {
+    "public": "Public",
+    "friend_only": "Only friend",
+    "private": "Private",
+    "what_is_new": " What's new?",
+    "new_thread": "New thread",
+    "posting": " Posting",
+    "post": "Post"
+  },
+  "validation": {
+    "requiredPassword": "Please enter password",
+    "invalidEmail": "Invalid email address",
+    "usernameRequired": "Username is required",
+    "usernameMinLength": "Username must be more than 5 characters",
+    "emailRequired": "Email is required",
+    "passwordRequired": "Password is required",
+    "passwordMinLength": "Password must be at least 6 characters",
+    "confirmPasswordRequired": "Confirm password is required",
+    "passwordMismatch": "Passwords do not match",
+    "passwordCriteria": "Password must contain at least one uppercase letter, one lowercase letter, one digit, no spaces, and be 8 to 32 characters long."
+  },
+  "profile": {
+    "follower": " Follower",
+    "followers": " Followers",
+    "editProfile": "Edit profile",
+    "Threads": "Threads",
+    "Reposts": "Reposts"
+  },
+  "post": {
+    "no_more_posts": "No posts available"
+  }
+}

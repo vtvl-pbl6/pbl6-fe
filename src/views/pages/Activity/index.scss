@@ -1,0 +1,128 @@
+.container-main {
+  scrollbar-width: none;
+  position: relative;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  width: 580px;
+  margin-top: 20px;
+  min-height: 100vh;
+  border: 1px solid var(--border-color);
+}
+
+.activity-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  min-height: 100vh;
+  border: 1px solid var(--border-color);
+}
+
+.activity-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 15px;
+  font-weight: bold;
+}
+
+.activity-body {
+  padding: 15px;
+  .followers-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .follower-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .follower-info {
+    display: flex;
+    align-items: center;
+  }
+
+  .follower-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+
+  .follower-details {
+    .follower-username {
+      font-weight: bold;
+    }
+    .follower-time {
+      font-size: 12px;
+      color: gray;
+    }
+  }
+
+  .follow-back-btn {
+    background-color: #fff;
+    border: 1px solid #dbdbdb;
+    border-radius: 8px;
+    padding: 6px 16px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    &:hover {
+      background-color: #f0f0f0;
+    }
+  }
+  .comments-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .comment-item {
+    display: flex;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .comment-info {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .comment-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+
+  .comment-details {
+    .comment-username {
+      font-weight: bold;
+    }
+
+    .comment-time {
+      font-size: 12px;
+      color: gray;
+      margin-bottom: 5px;
+    }
+
+    .comment-text {
+      white-space: pre-wrap;
+      font-size: 14px;
+    }
+  }
+
+  .self-post {
+    opacity: 0.6;
+    .comment-text {
+      color: #888;
+    }
+  }
+}

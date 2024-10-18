@@ -50,6 +50,13 @@
     "Reposts": "Bài đăng lại"
   },
   "post": {
-    "no_more_posts": "Không có bài đăng nào cũ hơn"
+    "no_more_posts": "Không có bài đăng nào ",
+    "no_more_reposts": "Không có bài đăng lại nào "
+  },
+  "activity": {
+    "follow": "Theo dõi",
+    "comment": "Bình luận",
+    "repost": "Đăng lại",
+    "follow_back": "Theo dõi lại"
   }
 }

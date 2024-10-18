@@ -8,7 +8,13 @@ function UserLayout(props) {
   const { currentTheme } = useContext(ThemeContext);
 
   return (
-    <div className="layout-wrapper">
+    <div
+      className="layout-wrapper"
+      style={{
+        background: currentTheme.background,
+        color: currentTheme.text,
+      }}
+    >
       <Sidebar activeIcon={activeIcon} setActiveIcon={setActiveIcon} />
       <div
         className="content-body"
@@ -17,9 +23,7 @@ function UserLayout(props) {
           color: currentTheme.text,
         }}
       >
-        <div className="content-wrapper">
-          <props.component setActiveIcon={setActiveIcon} />
-        </div>
+        <props.component setActiveIcon={setActiveIcon} />
       </div>
     </div>
   );

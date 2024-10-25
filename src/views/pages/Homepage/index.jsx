@@ -9,6 +9,7 @@ import { ThemeContext } from "../../../contexts/themeContext";
 import postAPI from "../../../api/postAPI";
 import AccountContext from "../../../contexts/AccountContext";
 import CreatePost from "../../../components/post/CreatePost";
+import Utils from "../../../support/support_function";
 import { useTranslation } from "react-i18next";
 
 const Homepage = ({ setActiveIcon }) => {
@@ -17,7 +18,6 @@ const Homepage = ({ setActiveIcon }) => {
     useContext(AccountContext);
   const { currentTheme } = useContext(ThemeContext);
   const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
-
   useEffect(() => {
     setActiveIcon("home");
     const callAPI = async () => {
@@ -107,7 +107,7 @@ const Homepage = ({ setActiveIcon }) => {
                     <Text>{post.author.display_name}</Text>
                   </div>
                   <Text className="post-time">
-                    {new Date(post.created_at).toLocaleString()}
+                    {Utils.formatPostTime(post.created_at)}
                   </Text>
                 </div>
                 <div className="more">
@@ -122,7 +122,11 @@ const Homepage = ({ setActiveIcon }) => {
                   </Box>
                 )}
                 <div className="actions">
-                  <Actions liked={false} setLiked={() => {}} />
+                  <Actions
+                    reactionNum={post.reaction_num || null}
+                    sharedNum={post.shared_num || null}
+                    commentsLength={(post.comments || []).length}
+                  />
                 </div>
               </div>
             </div>

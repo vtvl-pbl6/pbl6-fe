@@ -56,9 +56,14 @@
   "activity": {
     "all": "All",
     "follow": "Follows",
+    "unfollow": "Unfollow",
     "comment": "Comment",
     "like": "Like",
     "repost": "Reposts",
     "follow_back": "Follow back"
+  },
+  "search": {
+    "search": "Search",
+    "no_results": "User not found"
   }
 }

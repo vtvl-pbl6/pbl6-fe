@@ -104,3 +104,10 @@
     cursor: pointer;
   }
 }
+.user-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  height: 100%;
+  object-fit: cover;
+}

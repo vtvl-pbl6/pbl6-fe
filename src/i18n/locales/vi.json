@@ -56,9 +56,14 @@
   "activity": {
     "all": "Tất cả",
     "follow": "Theo dõi",
+    "unfollow": "Bỏ theo dõi",
     "like": "Thả tim",
     "comment": "Bình luận",
     "repost": "Đăng lại",
     "follow_back": "Theo dõi lại"
+  },
+  "search": {
+    "search": "Search",
+    "no_results": "Không tìm thấy người dùng"
   }
 }

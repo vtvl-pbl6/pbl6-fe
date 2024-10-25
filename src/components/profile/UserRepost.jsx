@@ -4,10 +4,10 @@ import Actions from "../action/Actions";
 import { useContext, useEffect, useState } from "react";
 import postAPI from "../../api/postAPI";
 import noAvt from "../../assets/imgs/no_avt.jpg";
-import { TailSpin } from "react-loader-spinner";
 import { ThemeContext } from "../../contexts/themeContext";
 import AccountContext from "../../contexts/AccountContext";
 import { useTranslation } from "react-i18next";
+import Utils from "../../support/support_function";
 import "./UserPost.scss";
 
 const UserPost = () => {
@@ -53,7 +53,7 @@ const UserPost = () => {
                     <Text>{post.author.display_name}</Text>
                   </div>
                   <Text className="post-time">
-                    {new Date(post.created_at).toLocaleString()}
+                    {Utils.formatPostTime(post.created_at)}
                   </Text>
                 </div>
                 <div className="more">
@@ -68,26 +68,27 @@ const UserPost = () => {
                   </Box>
                 )}
                 <div className="actions">
-                  <Actions liked={false} setLiked={() => {}} />
+                  <Actions
+                    reactionNum={post.reaction_num || null}
+                    sharedNum={post.shared_num || null}
+                    commentsLength={(post.comments || []).length}
+                  />
                 </div>
               </div>
             </div>
           );
         })
       ) : (
-        <div className="loading-container">
-          <TailSpin
-            height="25"
-            width="25"
-            color={currentTheme.text}
-            ariaLabel="loading"
-            wrapperStyle={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "50vh",
+        <div className="no-posts">
+          <Text
+            style={{
+              textAlign: "center",
+              margin: "20px",
+              color: currentTheme.text,
             }}
-          />
+          >
+            {t("post.no_more_reposts")}
+          </Text>
         </div>
       )}
     </>

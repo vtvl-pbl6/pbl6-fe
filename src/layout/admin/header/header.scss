@@ -1,41 +1,41 @@
-@import "../../contants/colors.scss";
+@import "../../../contants/colors.scss";
 
 .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: $background-header;
+  color: $title;
+
+  .header-left {
     display: flex;
-    justify-content: space-between; 
-    align-items: center; 
-    padding: 10px 20px; 
-    background-color: $background-header; 
-    color: $title;
+    align-items: center;
 
-    .header-left {
-        display: flex;
-        align-items: center;
-        
-        .app-name {
-            font-size: 24px; 
-            font-weight: bold;
-        }
+    .app-name {
+      font-size: 24px;
+      font-weight: bold;
+    }
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+
+    .header-icon {
+      font-size: 24px;
+      margin-left: 20px;
+      cursor: pointer;
+      transition: color 0.3s ease;
     }
 
-    .header-right {
-        display: flex;
-        align-items: center;
-
-        .header-icon {
-            font-size: 24px;
-            margin-left: 20px;
-            cursor: pointer;
-            transition: color 0.3s ease; 
-        }
-
-        .user-name {
-            font-size: 16px; 
-            margin-left: 10px; 
-        }
+    .user-name {
+      font-size: 16px;
+      margin-left: 10px;
     }
+  }
 
-    .header-icon:hover {
-        color: $primary_green; 
-    }
+  .header-icon:hover {
+    color: $primary_green;
+  }
 }

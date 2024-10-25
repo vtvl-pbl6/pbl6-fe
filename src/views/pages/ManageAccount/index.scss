@@ -1,90 +1,90 @@
-@import '../../../contants/colors.scss';
+@import "../../../contants/colors.scss";
 
 * {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 html,
 body {
-    font-size: 10px;
-    background-color: $background;
+  font-size: 10px;
+  background-color: $background;
 }
 
 .data-table-container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
 }
 
 .custom-title {
-    font-family: 'Rubik', sans-serif;
-    color:$title;
-    text-align: center;
-    font-size: 24px;
-    font-weight: 500;
+  font-family: "Rubik", sans-serif;
+  color: $title;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 500;
 }
 
 .center-content {
-    text-align: center;
+  text-align: center;
 }
 
 .sub-header {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .custom-search-input {
-    width: 400px;
-    height: 20px;
-    padding: 12px;
-    border: 1px solid;
-    border-radius: 5px;
-    font-family: 'Rubik', sans-serif;
-    font-size: 13px;
-    background-color: #f8f8f8;
-    color: #c8c8c8;
-    outline: none;
+  width: 400px;
+  height: 20px;
+  padding: 12px;
+  border: 1px solid;
+  border-radius: 5px;
+  font-family: "Rubik", sans-serif;
+  font-size: 13px;
+  background-color: #f8f8f8;
+  color: #c8c8c8;
+  outline: none;
 }
 
 .custom-search-input::placeholder {
-    font-family: 'Rubik', sans-serif;
+  font-family: "Rubik", sans-serif;
 }
 
 .align-item-center {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .btn-Del {
-    background: transparent;
-    border: none;
-    color: $danger;
-    margin: 0px 10px;
+  background: transparent;
+  border: none;
+  color: $danger;
+  margin: 0px 10px;
 }
 
 .btn-Del:hover {
-    background-color: $danger !important;
-    color: $white !important;
+  background-color: $danger !important;
+  color: $white !important;
 }
 
 .btn-UnDel {
-    background: transparent;
-    border: none;
-    color: $button;
-    margin: 0px 10px;
+  background: transparent;
+  border: none;
+  color: $button;
+  margin: 0px 10px;
 }
 
 .btn-UnDel:hover {
-    background-color: $button !important;
-    color: $white !important;
+  background-color: $button !important;
+  color: $white !important;
 }
 
 .lock-icon {
-    color : $danger;
+  color: $danger;
 }
 
 .unlock-icon {
-    color : $success;
+  color: $success;
 }

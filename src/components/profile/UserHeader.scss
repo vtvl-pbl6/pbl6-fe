@@ -9,6 +9,7 @@
     .profile-image {
       width: 80px;
       height: 80px;
+      margin-left: 330px;
       border-radius: 50%;
     }
     .details {
@@ -24,12 +25,7 @@
           justify-content: space-between;
           align-items: center;
           margin: 10px;
-          .profile-image {
-            width: 80px;
-            height: 80px;
-            margin-left: 20px;
-            border-radius: 50%;
-          }
+
           .details {
             flex-grow: 1;
             margin-left: 10px;

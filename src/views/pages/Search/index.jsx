@@ -1,10 +1,10 @@
 import React, { useContext, useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { ThemeContext } from "../../../contexts/themeContext";
-import accountInfoAPI from "../../../api/accountAPI";
+import AccountAPI from "../../../api/accountAPI";
 import debounce from "lodash/debounce";
 import { SearchOutlined } from "@ant-design/icons";
-import marAvt from "../../../assets/imgs/mark.png";
+import noAvt from "../../../assets/imgs/no_avt.jpg";
 import "./index.scss";
 
 const Search = ({ setActiveIcon }) => {
@@ -15,8 +15,11 @@ const Search = ({ setActiveIcon }) => {
 
   const searchUsers = async (query) => {
     try {
-      const response = await accountInfoAPI.searchUsers(query, 1);
-      setSearchResults(response.data);
+      const response = await AccountAPI.searchUsers(query, 1);
+      if (response.data.is_success) {
+        setSearchResults(response.data.data);
+      }
+
     } catch (error) {
       console.error("Search error:", error);
     }
@@ -27,7 +30,7 @@ const Search = ({ setActiveIcon }) => {
       if (query) {
         searchUsers(query);
       }
-    }, 500),
+    }, 200),
     []
   );
 
@@ -62,7 +65,7 @@ const Search = ({ setActiveIcon }) => {
             type="text"
             value={searchTerm}
             onChange={handleInputChange}
-            placeholder={t("search")}
+            placeholder={t("search.search")}
             style={{
               color: currentTheme.text,
             }}
@@ -70,24 +73,35 @@ const Search = ({ setActiveIcon }) => {
         </div>
       </div>
       <div className="search-body">
-        <div className="search-results">
-          <div className="profile-card">
-            <div className="profile-info">
-              <img src={marAvt} alt="Avatar" className="avatar" />
-              <div className="profile-details">
-                <strong className="username">hoaiitu_</strong>
-                <p className="display-name">
-                  Hoaii Tu{" "}
-                  <span role="img" aria-label="sunflower">
-                    🌻
-                  </span>
-                </p>
-                <p className="followers">96 followers</p>
+        {searchResults.length > 0 ? (
+          searchResults.map((user) => (
+            <div key={user.id} className="profile-card">
+              <div className="profile-info">
+                <img
+                  src={user.avatar || noAvt}
+                  alt="Avatar"
+                  className="avatar"
+                />
+                <div className="profile-details">
+                  <strong className="username">{user.display_name}</strong>
+                  <p className="display-name">
+                    {user.first_name} {user.last_name}
+                  </p>
+                  <p className="followers">
+                    {user.follower_num} {t("profile.followers")}
+                  </p>
+                </div>
               </div>
+              <button className="follow-btn">
+                {user.is_followed_by_current_user
+                  ? t("activity.unfollow")
+                  : t("activity.follow")}
+              </button>
             </div>
-            <button className="follow-btn">Follow back</button>
-          </div>
-        </div>
+          ))
+        ) : (
+          <p className="no-results">{t("search.no_results")}</p>
+        )}
       </div>
     </div>
   );

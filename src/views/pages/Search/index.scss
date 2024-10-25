@@ -8,7 +8,7 @@
   width: 580px;
   margin-top: 20px;
   min-height: 100vh;
-  border: 1px solid var(--border-color);
+  border: 1px var(--border-color);
 }
 .search-header {
   padding: 15px;
@@ -42,7 +42,7 @@ input {
   justify-content: space-between;
   align-items: center;
   padding: 15px;
-  border-bottom: 1px solid #e6e6e6;
+  border-bottom: 1.5px solid var(--border-color);
   width: 100%;
 }
 

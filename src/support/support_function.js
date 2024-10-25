@@ -21,65 +21,40 @@ function getStringPost(post) {
     return post + " posts";
   }
 }
+function formatPostTime(createdAt) {
+  const [date, time] = createdAt.split(" ");
+  const [day, month, year] = date.split("-");
+  const [hours, minutes] = time.split(":").map((part) => part.split(".")[0]);
 
-function getStringApproveForm(form) {
-  if (form === 0 || form === 1) {
-    return form + " form";
+  const postDate = new Date(`${year}-${month}-${day}T${hours}:${minutes}:00`);
+  const now = new Date();
+  const differenceInMilliseconds = now - postDate;
+
+  const seconds = Math.floor(differenceInMilliseconds / 1000);
+  const minutesDiff = Math.floor(seconds / 60);
+  const hoursDiff = Math.floor(minutesDiff / 60);
+  const daysDiff = Math.floor(hoursDiff / 24);
+
+  if (daysDiff >= 3) {
+    return postDate.toLocaleDateString();
+  } else if (daysDiff === 2) {
+    return "2 ngày trước";
+  } else if (daysDiff === 1) {
+    return "1 ngày trước";
+  } else if (hoursDiff > 0) {
+    return `${hoursDiff} giờ trước`;
+  } else if (minutesDiff > 0) {
+    return `${minutesDiff} phút trước`;
   } else {
-    return form + " forms";
+    return "Vừa mới";
   }
-}
-
-function convertDateFromArrayToString(dateArray) {
-  if (!Array.isArray(dateArray)) {
-    return dateArray;
-  }
-  let [year, month, day] = dateArray;
-  month = month.toString().padStart(2, "0");
-  day = day.toString().padStart(2, "0");
-  return `${year}-${month}-${day}`;
-}
-
-function getCurrentlyDate() {
-  const currentDate = new Date();
-
-  const year = currentDate.getFullYear();
-  const month = ("0" + (currentDate.getMonth() + 1)).slice(-2);
-  const day = ("0" + currentDate.getDate()).slice(-2);
-
-  const formattedDate = `${year}-${month}-${day}`;
-  return formattedDate;
-}
-function removeSpaceInString(str) {
-  return str.replace(/\s+/g, "");
-}
-
-function getFirstCharacter(str) {
-  return str.charAt(0);
-}
-
-function getCurrentDateTime() {
-  var now = new Date();
-
-  var year = now.getFullYear();
-  var month = String(now.getMonth() + 1).padStart(2, "0"); // Tháng bắt đầu từ 0 nên cần cộng thêm 1 và đảm bảo có 2 chữ số
-  var day = String(now.getDate()).padStart(2, "0"); // Đảm bảo có 2 chữ số
-  var hours = String(now.getHours()).padStart(2, "0"); // Đảm bảo có 2 chữ số
-  var minutes = String(now.getMinutes()).padStart(2, "0"); // Đảm bảo có 2 chữ số
-
-  return `${year}-${month}-${day} ${hours}:${minutes}`;
 }
 
 const Utils = {
-  getCurrentlyDate,
   getStringComment,
   getStringReply,
   getStringPost,
-  getStringApproveForm,
-  removeSpaceInString,
-  getFirstCharacter,
-  convertDateFromArrayToString,
-  getCurrentDateTime,
+  formatPostTime,
 };
 
 export default Utils;

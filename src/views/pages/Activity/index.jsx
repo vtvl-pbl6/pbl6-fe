@@ -8,7 +8,7 @@ import "./index.scss";
 const Activity = ({ setActiveIcon }) => {
   const { t } = useTranslation();
   const { currentTheme } = useContext(ThemeContext);
-  const [selectedItem, setSelectedItem] = useState("follow");
+  const [selectedItem, setSelectedItem] = useState("all");
   const [followers, setFollowers] = useState([
     {
       id: 1,
@@ -51,8 +51,10 @@ const Activity = ({ setActiveIcon }) => {
   };
 
   const menu = (
-    <Menu onClick={handleMenuClick}>
+    <Menu onClick={handleMenuClick} className="activity-dropdown">
+      <Menu.Item key="all">{t("activity.all")}</Menu.Item>
       <Menu.Item key="follow">{t("activity.follow")}</Menu.Item>
+      <Menu.Item key="like">{t("activity.like")}</Menu.Item>
       <Menu.Item key="comment">{t("activity.comment")}</Menu.Item>
       <Menu.Item key="repost">{t("activity.repost")}</Menu.Item>
     </Menu>
@@ -66,7 +68,7 @@ const Activity = ({ setActiveIcon }) => {
     <div className="main-wrapper">
       <div className="activity-header">
         {t(`activity.${selectedItem}`)}
-        <Dropdown overlay={menu} trigger={["click"]}>
+        <Dropdown style={{}} overlay={menu} trigger={["click"]}>
           <a onClick={(e) => e.preventDefault()}>
             <DownOutlined
               style={{

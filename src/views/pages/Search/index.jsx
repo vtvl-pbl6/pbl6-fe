@@ -19,6 +19,7 @@ const Search = ({ setActiveIcon }) => {
       if (response.data.is_success) {
         setSearchResults(response.data.data);
       }
+
     } catch (error) {
       console.error("Search error:", error);
     }

@@ -28,8 +28,6 @@ const AllRoutes = () => {
     <Routes>
       <Route path="/" element={<Navigate to={"/auth/login"} />} />
       <Route path="/auth/login" element={<Login />} />
-      <Route path="/auth/signup" element={<Signup />} />
-      <Route path="/auth/forgot-password" element={<ForgotPassword />} />
 
       {/* User */}
       <Route element={<UserRoute />}>
@@ -37,6 +35,8 @@ const AllRoutes = () => {
           path="/user-homepage"
           element={<UserLayout component={UserHomePage} />}
         />
+      {/* </Route> */}
+
         <Route path="/profile" element={<UserLayout component={Profile} />} />
         <Route path="/activity" element={<UserLayout component={Activity} />} />
         <Route path="/search" element={<UserLayout component={Search} />} />

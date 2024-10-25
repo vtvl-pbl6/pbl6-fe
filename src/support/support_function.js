@@ -1,25 +1,25 @@
 function getStringComment(comment) {
-  if (comment === 0 || comment === 1) {
-    return comment + " comment";
-  } else {
-    return comment + " comments";
-  }
+    if (comment === 0 || comment === 1) {
+        return comment + " comment";
+    } else {
+        return comment + " comments";
+    }
 }
 
 function getStringReply(reply) {
-  if (reply === 0 || reply === 1) {
-    return reply + " reply";
-  } else {
-    return reply + " replies";
-  }
+    if (reply === 0 || reply === 1) {
+        return reply + " reply";
+    } else {
+        return reply + " replies";
+    }
 }
 
 function getStringPost(post) {
-  if (post === 0 || post === 1) {
-    return post + " post";
-  } else {
-    return post + " posts";
-  }
+    if (post === 0 || post === 1) {
+        return post + " post";
+    } else {
+        return post + " posts";
+    }
 }
 function formatPostTime(createdAt) {
   const [date, time] = createdAt.split(" ");

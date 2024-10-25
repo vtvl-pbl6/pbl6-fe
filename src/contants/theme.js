@@ -8,6 +8,8 @@ const theme = {
       extraLightGray: "#FFFFFF",
       borderColor: "#DFDFDF",
       bgPost: "#FFFFFF",
+      oppositeBackground: "#0A0A0A",
+      oppositeText: "#FFFFFF",
     },
     darkMode: {
       background: "#0A0A0A",
@@ -17,6 +19,8 @@ const theme = {
       extraLightGray: "#1A1A1A",
       borderColor: "#333333",
       bgPost: "#181818",
+      oppositeBackground: "#FAFAFA",
+      oppositeText: "#000000",
     },
     rose: "#EF4444",
     green: "#209d5c",

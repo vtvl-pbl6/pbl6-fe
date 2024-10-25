@@ -1,5 +1,5 @@
-import Header from "./header/header";
-import "./AdminLayout.scss";
+import Header from "../header/header";
+import './AdminLayout.scss'
 
 function AdminLayout(props) {
   return (
@@ -9,7 +9,7 @@ function AdminLayout(props) {
         <props.component />
       </div>
     </div>
-  );
+  )
 }
 
 export default AdminLayout;

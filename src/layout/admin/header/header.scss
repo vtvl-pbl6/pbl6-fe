@@ -23,7 +23,7 @@
     align-items: center;
 
     .header-icon {
-      font-size: 24px;
+      font-size: 18px;
       margin-left: 20px;
       cursor: pointer;
       transition: color 0.3s ease;
@@ -38,4 +38,22 @@
   .header-icon:hover {
     color: $primary_green;
   }
+}
+.ant-modal-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+.ant-modal {
+  .ant-modal-content {
+    position: fixed;
+    top: 40px;
+    right: 30px;
+    transform-origin: top right !important;
+    animation: none;
+    transform: none;
+  }
+}
+
+.ant-modal-mask {
+  display: none;
 }

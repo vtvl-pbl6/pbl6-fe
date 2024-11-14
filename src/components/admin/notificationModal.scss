@@ -1,0 +1,42 @@
+@import "../../contants/colors.scss";
+.tabs {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 35px;
+  margin-bottom: 16px;
+}
+
+.tabs span {
+  cursor: pointer;
+  padding: 0px 40px;
+  padding-bottom: 5px;
+}
+
+.tabs .active {
+  font-weight: bold;
+  color: $title;
+  border-bottom: 2px solid $title;
+}
+
+.notification-list {
+  height: 300px;
+  max-height: 450px;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.list-item {
+  width: 350px;
+  font-size: 16px;
+}
+.sender-info {
+  font-size: 13px;
+  font-weight: lighter;
+  color: #c2bebe;
+}
+.ant-list-item-meta-title {
+  margin: 0;
+}
+.time {
+  font-size: 13px;
+  font-weight: lighter;
+}

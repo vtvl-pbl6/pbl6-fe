@@ -19,7 +19,7 @@ const UserPost = () => {
   useEffect(() => {
     const callAPI = async () => {
       try {
-        const response = await postAPI.getListReposts(repostPage, account.id);
+        const response = await postAPI.getRepostByCurrentUser(repostPage, account.id);
         if (response.data.is_success) {
           const newPosts = response.data.data;
           setReposts((prevPosts) => [...prevPosts, ...newPosts]);

@@ -21,7 +21,7 @@ const UserHeader = () => {
           <p className="fullname">{account.last_name || ""}</p>
           <p className="bio">{account.bio || ""}</p>
           <p className="followers">
-            {account.followers?.length || 0} {followerText}
+            {account.follower_num || 0} {followerText}
           </p>
         </div>
         <img src={account.avatar_file || noAvt} className="profile-image" />

@@ -11,16 +11,16 @@ import validator from "validator";
 import { useNavigate } from "react-router-dom";
 import "./index.scss";
 import axiosClient from "../../../api/axiosClient";
+import accountInfoAPI from "../../../api/accountAPI";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { setToken } = useAuth();
+  const { setToken, setAccount } = useAuth();
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
   const { currentTheme } = useContext(ThemeContext);
   const { t } = useTranslation();
-
   const handleLogin = () => {
     setErrors({});
 
@@ -80,7 +80,16 @@ const Login = () => {
             "Authorization"
           ] = `Bearer ${token}`;
 
-          navigate("/user-homepage");
+          const accountResponse = await accountInfoAPI.getInfoByToken();
+          const accData = accountResponse.data.data;
+          setAccount(accData);
+          localStorage.setItem("account", JSON.stringify(accData));
+
+          if (accData.role === "USER") {
+            navigate("/user-homepage");
+          } else if (accData.role === "ADMIN") {
+            navigate("/admin/manage-account");
+          }
         } else {
           toast.error(t("loginFailed"));
         }

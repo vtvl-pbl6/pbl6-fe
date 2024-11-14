@@ -54,17 +54,17 @@
     "no_more_reposts": "No reposts available"
   },
   "activity": {
-    "all": "All",
-    "follow": "Follows",
+    "activity": "Activity",
+    "follow": "Follow",
     "unfollow": "Unfollow",
     "comment": "Comment",
     "like": "Like",
     "repost": "Reposts",
-    "follow_back": "Follow back"
+    "follow_back": "Follow back",
+    "follow-u": "Followed you"
   },
   "search": {
     "search": "Search",
     "no_results": "User not found"
-
   }
 }

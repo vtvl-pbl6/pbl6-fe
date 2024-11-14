@@ -4,7 +4,6 @@ import useAuth from "../../hooks/useAuth";
 
 const UserRoute = () => {
   const { account } = useAuth();
-  console.log(account.role);
   if (account.role === "USER") {
     return <Outlet />;
   } else {

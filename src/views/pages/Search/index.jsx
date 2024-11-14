@@ -12,6 +12,7 @@ const Search = ({ setActiveIcon }) => {
   const { currentTheme } = useContext(ThemeContext);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [loading, setLoading] = useState(false); 
 
   const searchUsers = async (query) => {
     try {
@@ -19,7 +20,6 @@ const Search = ({ setActiveIcon }) => {
       if (response.data.is_success) {
         setSearchResults(response.data.data);
       }
-
     } catch (error) {
       console.error("Search error:", error);
     }
@@ -38,6 +38,31 @@ const Search = ({ setActiveIcon }) => {
     const value = e.target.value;
     setSearchTerm(value);
     debouncedSearch(value);
+  };
+
+  const handleFollowUnfollow = async (userId, isFollowing) => {
+    if (loading) return;
+    setLoading(true);
+
+    try {
+      const response = isFollowing
+        ? await AccountAPI.unfollowUser(userId)
+        : await AccountAPI.followUser(userId);
+
+      if (response.data.is_success) {
+        setSearchResults((prevResults) =>
+          prevResults.map((user) =>
+            user.id === userId
+              ? { ...user, is_followed_by_current_user: !isFollowing }
+              : user
+          )
+        );
+      }
+    } catch (error) {
+      console.error("Error in follow/unfollow:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -92,7 +117,16 @@ const Search = ({ setActiveIcon }) => {
                   </p>
                 </div>
               </div>
-              <button className="follow-btn">
+              <button
+                className="follow-btn"
+                onClick={() =>
+                  handleFollowUnfollow(
+                    user.id,
+                    user.is_followed_by_current_user
+                  )
+                }
+                disabled={loading}
+              >
                 {user.is_followed_by_current_user
                   ? t("activity.unfollow")
                   : t("activity.follow")}

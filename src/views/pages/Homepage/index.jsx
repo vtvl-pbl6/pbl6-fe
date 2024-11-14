@@ -1,6 +1,4 @@
-import React, { useState } from "react";
-import authAPI from "../../../api/authAPI";
-import { ToastContainer, toast } from "react-toastify";
+import React, { useState, useContext, useEffect } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { Box, Image, Text } from "@chakra-ui/react";
 import { BsThreeDots } from "react-icons/bs";
@@ -57,7 +55,6 @@ const Homepage = ({ setActiveIcon }) => {
       }
     };
   }, [page]);
-const Homepage = () => {
   return (
     // <div>
     //   <h1>Hello World</h1>

@@ -23,20 +23,23 @@ const Search = LoadableComponent(() => import("../pages/Search/index.jsx"));
 const ManageAccount = LoadableComponent(() =>
   import("../pages/ManageAccount/index.jsx")
 );
+const ManagePost = LoadableComponent(() =>
+  import("../pages/ManagePost/index.jsx")
+);
+const DetailRequest = LoadableComponent(() =>
+  import("../pages/DetailRequest/index.jsx")
+);
 const AllRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Navigate to={"/auth/login"} />} />
       <Route path="/auth/login" element={<Login />} />
-
-      {/* User */}
+      <Route path="/auth/signup" element={<Signup />} />
       <Route element={<UserRoute />}>
         <Route
           path="/user-homepage"
           element={<UserLayout component={UserHomePage} />}
         />
-      {/* </Route> */}
-
         <Route path="/profile" element={<UserLayout component={Profile} />} />
         <Route path="/activity" element={<UserLayout component={Activity} />} />
         <Route path="/search" element={<UserLayout component={Search} />} />
@@ -48,10 +51,14 @@ const AllRoutes = () => {
           path="/admin/manage-account"
           element={<AdminLayout component={ManageAccount} />}
         />
-        {/* <Route
-          path="/admin/manage-post"
+        <Route
+          path="/admin/list-requests"
           element={<AdminLayout component={ManagePost} />}
-        /> */}
+        />
+        <Route
+          path="/admin/list-requests/detail/:id"
+          element={<AdminLayout component={DetailRequest} />}
+        />
       </Route>
     </Routes>
   );

@@ -8,6 +8,7 @@ import React, {
 import axiosClient from "../api/axiosClient";
 import authAPI from "../api/authAPI";
 import { useNavigate } from "react-router-dom";
+import AuthAPI from "../api/admin/authAPI";
 import accountInfoAPI from "../api/accountAPI";
 
 const AccountContext = createContext({});
@@ -24,6 +25,9 @@ export const AuthProvider = ({ children }) => {
   const [userPage, setUserPage] = useState(1);
   const [reposts, setReposts] = useState([]);
   const [repostPage, setRepostPage] = useState(1);
+  const [noti, setnoti] = useState([]);
+  const [notiPage, setNotiPage] = useState(1);
+  const [accountRecords, setAccountRecords] = useState([]);
 
   const logout = async () => {
     try {
@@ -45,7 +49,26 @@ export const AuthProvider = ({ children }) => {
       console.error("Logout failed", error);
     }
   };
-
+  const logoutAdmin = async () => {
+    try {
+      const response = await AuthAPI.logoutAdmin();
+      if (response.status === 200) {
+        setToken(null);
+        setAccount(null);
+        localStorage.removeItem("token");
+        localStorage.removeItem("account");
+        setPosts([]);
+        setPage(1);
+        delete axiosClient.application.defaults.headers.common["Authorization"];
+        delete axiosClient.formData.defaults.headers.common["Authorization"];
+        navigate("/");
+      } else {
+        console.error("Logout failed", response.errors);
+      }
+    } catch (error) {
+      console.error("Logout failed", error);
+    }
+  };
   const providerValue = useMemo(
     () => ({
       token,
@@ -64,9 +87,26 @@ export const AuthProvider = ({ children }) => {
       setReposts,
       repostPage,
       setRepostPage,
+      noti,
+      setnoti,
+      notiPage,
+      setNotiPage,
+      accountRecords,
+      setAccountRecords,
       logout,
+      logoutAdmin,
     }),
-    [token, account, posts, page, userPosts, userPage, reposts, repostPage]
+    [
+      token,
+      account,
+      posts,
+      page,
+      userPosts,
+      userPage,
+      reposts,
+      repostPage,
+      accountRecords,
+    ]
   );
 
   useEffect(() => {
@@ -80,15 +120,6 @@ export const AuthProvider = ({ children }) => {
       axiosClient.formData.defaults.headers.common[
         "Authorization"
       ] = `Bearer ${currentToken}`;
-      accountInfoAPI
-        .getInfoByToken()
-        .then((response) => {
-          setAccount(response.data.data);
-          localStorage.setItem("account", JSON.stringify(response.data.data));
-        })
-        .catch((error) => {
-          console.log(error);
-        });
     } else {
       delete axiosClient.application.defaults.headers.common["Authorization"];
       delete axiosClient.formData.defaults.headers.common["Authorization"];

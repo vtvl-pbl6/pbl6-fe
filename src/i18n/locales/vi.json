@@ -54,13 +54,14 @@
     "no_more_reposts": "Không có bài đăng lại nào "
   },
   "activity": {
-    "all": "Tất cả",
+    "activity": "Hoạt động",
     "follow": "Theo dõi",
     "unfollow": "Bỏ theo dõi",
     "like": "Thả tim",
     "comment": "Bình luận",
     "repost": "Đăng lại",
-    "follow_back": "Theo dõi lại"
+    "follow_back": "Theo dõi lại",
+    "follow-u": "Đã theo dõi bạn"
   },
   "search": {
     "search": "Search",

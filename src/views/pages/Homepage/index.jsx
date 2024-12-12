@@ -11,6 +11,7 @@ import AccountContext from "../../../contexts/AccountContext";
 import CreatePost from "../../../components/post/CreatePost";
 import Utils from "../../../support/support_function";
 import { useTranslation } from "react-i18next";
+import ImageList from "../../../components/post/ImageList";
 
 const Homepage = ({ setActiveIcon }) => {
   const { t } = useTranslation();
@@ -56,8 +57,6 @@ const Homepage = ({ setActiveIcon }) => {
     };
   }, [page]);
   return (
-    // <div>
-    //   <h1>Hello World</h1>
     <div
       className="container-main"
       style={{
@@ -68,7 +67,10 @@ const Homepage = ({ setActiveIcon }) => {
     >
       <div className="create-post" onClick={() => setIsCreatePostOpen(true)}>
         <div className="user-avatar-container">
-          <Image src={account?.avatar_file || noAvt} className="user-avatar" />
+          <Image
+            src={account?.avatar_file.url || noAvt}
+            className="user-avatar"
+          />
         </div>
         <input
           type="text"
@@ -97,7 +99,7 @@ const Homepage = ({ setActiveIcon }) => {
               <div className="header-post">
                 <div className="user-info">
                   <Image
-                    src={post.author.avatar_file || noAvt}
+                    src={post.author.avatar_file?.url || noAvt}
                     className="user-avatar"
                     name={post.author.display_name}
                   />
@@ -119,7 +121,11 @@ const Homepage = ({ setActiveIcon }) => {
                 <Text className="post-content">{post.content}</Text>
                 {post.files && post.files.length > 0 && (
                   <Box className="post-image">
-                    <Image src={post.files} />
+                    <ImageList
+                      files={post.files}
+                      setFiles={() => {}}
+                      isEditable={false}
+                    />
                   </Box>
                 )}
                 <div className="actions">

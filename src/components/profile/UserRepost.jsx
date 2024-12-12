@@ -19,7 +19,10 @@ const UserPost = () => {
   useEffect(() => {
     const callAPI = async () => {
       try {
-        const response = await postAPI.getRepostByCurrentUser(repostPage, account.id);
+        const response = await postAPI.getRepostByCurrentUser(
+          repostPage,
+          account.id
+        );
         if (response.data.is_success) {
           const newPosts = response.data.data;
           setReposts((prevPosts) => [...prevPosts, ...newPosts]);
@@ -42,7 +45,7 @@ const UserPost = () => {
               <div className="header-post">
                 <div className="user-info">
                   <Image
-                    src={post.author.avatar_file || noAvt}
+                    src={post.author.avatar_file?.url || noAvt}
                     className="user-avatar"
                     name={post.author.display_name}
                   />

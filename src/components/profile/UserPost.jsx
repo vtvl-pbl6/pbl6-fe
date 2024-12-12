@@ -65,7 +65,10 @@ const UserPost = () => {
     <>
       <div className="create-post" onClick={() => setIsCreatePostOpen(true)}>
         <div className="user-avatar-container">
-          <Image src={account?.avatar_file || noAvt} className="user-avatar" />
+          <Image
+            src={account?.avatar_file.url || noAvt}
+            className="user-avatar"
+          />
         </div>
         <input
           type="text"
@@ -94,7 +97,7 @@ const UserPost = () => {
               <div className="header-post">
                 <div className="user-info">
                   <Image
-                    src={post.author.avatar_file || noAvt}
+                    src={post.author.avatar_file.url || noAvt}
                     className="user-avatar"
                     name={post.author.display_name}
                   />

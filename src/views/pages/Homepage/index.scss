@@ -78,12 +78,11 @@
   border-bottom: 1px solid var(--border-color);
   .user-avatar-container {
     width: 30px;
-    height: 30px;
+    height: 30px !important;
   }
 
   .user-avatar {
     border-radius: 50%;
-    height: 100%;
     object-fit: cover;
   }
 
@@ -109,7 +108,5 @@
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  height: 100%;
   object-fit: cover;
 }
-

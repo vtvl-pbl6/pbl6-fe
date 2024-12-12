@@ -7,7 +7,11 @@ const ImageList = ({ files, setFiles, isEditable }) => {
   useEffect(() => {
     if (files.length > 0) {
       const newImages = files.map((file) => {
-        const url = file.url || URL.createObjectURL(file);
+        // const url = file.url || URL.createObjectURL(file);
+        const url =
+          typeof file === "string"
+            ? file
+            : file.url || URL.createObjectURL(file);
         return { file, url };
       });
       setListImage(newImages);

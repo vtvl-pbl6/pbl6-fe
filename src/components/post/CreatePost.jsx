@@ -107,11 +107,14 @@ const CreatePost = ({ isOpen, onClose }) => {
                   style={{ backgroundColor: currentTheme.bgPost }}
                 >
                   <div className="avatar">
-                    <img src={account.avatar_file || noAvt} alt="Avatar" />
+                    <img src={account.avatar_file?.url || noAvt} alt="Avatar" />
                   </div>
                   <div className="vertical-line"></div>
                   <div className="mini-avatar">
-                    <img src={noAvt} alt="Mini Avatar" />
+                    <img
+                      src={account.avatar_file?.url || noAvt}
+                      alt="Mini Avatar"
+                    />
                   </div>
                 </div>
                 <div className="form-right">

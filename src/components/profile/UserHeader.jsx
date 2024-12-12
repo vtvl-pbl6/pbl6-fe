@@ -24,7 +24,7 @@ const UserHeader = () => {
             {account.follower_num || 0} {followerText}
           </p>
         </div>
-        <img src={account.avatar_file || noAvt} className="profile-image" />
+        <img src={account.avatar_file.url || noAvt} className="profile-image" />
       </div>
       <Link
         to="/edit-profile"

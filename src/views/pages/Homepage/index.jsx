@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import authAPI from "../../../api/authAPI";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -158,5 +158,5 @@ const Homepage = () => {
     </div>
   );
 };
-
+}
 export default Homepage;

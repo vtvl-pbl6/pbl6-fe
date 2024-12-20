@@ -4,6 +4,7 @@ import UserRoute from "./user-route.js";
 import AdminRoute from "./admin-route.js";
 import AdminLayout from "../../layout/admin/AdminLayout.jsx";
 import UserLayout from "../../layout/user/UserLayout.jsx";
+import ThreadReply from "../pages/Comment/index.jsx";
 
 const UserHomePage = LoadableComponent(() =>
   import("../pages/Homepage/index.jsx")

@@ -68,7 +68,7 @@ const Homepage = ({ setActiveIcon }) => {
       <div className="create-post" onClick={() => setIsCreatePostOpen(true)}>
         <div className="user-avatar-container">
           <Image
-            src={account?.avatar_file.url || noAvt}
+            src={account?.avatar_file?.url || noAvt}
             className="user-avatar"
           />
         </div>

@@ -1,7 +1,7 @@
 import { Box, Image, Text } from "@chakra-ui/react";
 import { BsThreeDots } from "react-icons/bs";
 import Actions from "../action/Actions";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import postAPI from "../../api/postAPI";
 import noAvt from "../../assets/imgs/no_avt.jpg";
 import { ThemeContext } from "../../contexts/themeContext";
@@ -9,93 +9,108 @@ import AccountContext from "../../contexts/AccountContext";
 import { useTranslation } from "react-i18next";
 import Utils from "../../support/support_function";
 import "./UserPost.scss";
+import ImageList from "../post/ImageList";
 
 const UserPost = () => {
-  const { t } = useTranslation();
-  const { currentTheme } = useContext(ThemeContext);
-  const { reposts, setReposts, repostPage, setRepostPage, account } =
-    useContext(AccountContext);
+    const { t } = useTranslation();
+    const { currentTheme } = useContext(ThemeContext);
+    const { reposts, setReposts, repostPage, setRepostPage, account } =
+        useContext(AccountContext);
 
-  useEffect(() => {
-    const callAPI = async () => {
-      try {
-        const response = await postAPI.getRepostByCurrentUser(
-          repostPage,
-          account.id
-        );
-        if (response.data.is_success) {
-          const newPosts = response.data.data;
-          setReposts((prevPosts) => [...prevPosts, ...newPosts]);
+    useEffect(() => {
+        const callAPI = async () => {
+            try {
+                const response = await postAPI.getRepostByCurrentUser(
+                    repostPage,
+                    account.id
+                );
+                if (response.data.is_success) {
+                    const newPosts = response.data.data;
+                    setReposts((prevPosts) => [...prevPosts, ...newPosts]);
+                }
+            } catch (error) {
+                console.error("Error fetching posts:", error);
+            }
+        };
+        if (reposts.length === 0 || repostPage > 1) {
+            callAPI();
         }
-      } catch (error) {
-        console.error("Error fetching posts:", error);
-      }
-    };
-    if (reposts.length === 0 || repostPage > 1) {
-      callAPI();
-    }
-  }, [repostPage]);
+    }, [repostPage]);
 
-  return (
-    <>
-      {reposts.length > 0 ? (
-        reposts.map((post, index) => {
-          return (
-            <div className="container-post" key={`${post.id}-${index}`}>
-              <div className="header-post">
-                <div className="user-info">
-                  <Image
-                    src={post.author.avatar_file?.url || noAvt}
-                    className="user-avatar"
-                    name={post.author.display_name}
-                  />
-                  <div
-                    className="user-name"
-                    style={{ color: currentTheme.text }}
-                  >
-                    <Text>{post.author.display_name}</Text>
-                  </div>
-                  <Text className="post-time">
-                    {Utils.formatPostTime(post.created_at)}
-                  </Text>
+    return (
+        <>
+            {reposts.length > 0 ? (
+                reposts.map((post, index) => {
+                    return (
+                        <div
+                            className="container-post"
+                            key={`${post.id}-${index}`}
+                        >
+                            <div className="header-post">
+                                <div className="user-info">
+                                    <Image
+                                        src={
+                                            post.author.avatar_file?.url ||
+                                            noAvt
+                                        }
+                                        className="user-avatar"
+                                        name={post.author.display_name}
+                                    />
+                                    <div
+                                        className="user-name"
+                                        style={{ color: currentTheme.text }}
+                                    >
+                                        <Text>{post.author.display_name}</Text>
+                                    </div>
+                                    <Text className="post-time">
+                                        {Utils.formatPostTime(post.created_at)}
+                                    </Text>
+                                </div>
+                                <div className="more">
+                                    <BsThreeDots />
+                                </div>
+                            </div>
+                            <div className="post-body">
+                                <Text className="post-content">
+                                    {post.content}
+                                </Text>
+                                {post.files && post.files.length > 0 && (
+                                    <Box className="post-image">
+                                        <ImageList
+                                            files={post.files}
+                                            setFiles={() => {}}
+                                            isEditable={false}
+                                        />
+                                    </Box>
+                                )}
+                                <div className="actions">
+                                    <Actions
+                                        reactionNum={post.reaction_num || null}
+                                        sharedNum={post.shared_num || null}
+                                        commentsLength={
+                                            (post.comments || []).length
+                                        }
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    );
+                })
+            ) : (
+                <div className="no-posts">
+                    <Text
+                        style={{
+                            textAlign: "center",
+                            margin: "20px",
+                            color: currentTheme.text,
+                        }}
+                    >
+                        {t("post.no_more_reposts")}
+                    </Text>
                 </div>
-                <div className="more">
-                  <BsThreeDots />
-                </div>
-              </div>
-              <div className="post-body">
-                <Text className="post-content">{post.content}</Text>
-                {post.files && post.files.length > 0 && (
-                  <Box className="post-image">
-                    <Image src={post.files} />
-                  </Box>
-                )}
-                <div className="actions">
-                  <Actions
-                    reactionNum={post.reaction_num || null}
-                    sharedNum={post.shared_num || null}
-                    commentsLength={(post.comments || []).length}
-                  />
-                </div>
-              </div>
-            </div>
-          );
-        })
-      ) : (
-        <div className="no-posts">
-          <Text
-            style={{
-              textAlign: "center",
-              margin: "20px",
-              color: currentTheme.text,
-            }}
-          >
-            {t("post.no_more_reposts")}
-          </Text>
-        </div>
-      )}
-    </>
-  );
+            )}
+        </>
+    );
 };
 
 export default UserPost;

@@ -1,86 +1,115 @@
-import { Client } from '@stomp/stompjs';
-import SockJS from 'sockjs-client';
+import { Client } from "@stomp/stompjs";
+import SockJS from "sockjs-client";
 
-// Global variable to hold the STOMP client instance
 let stompClient = null;
+let reconnectAttempts = 0; // Số lần thử kết nối lại
+const MAX_RECONNECT_ATTEMPTS = 5; // Số lần thử kết nối lại tối đa
 
-/**
- * Checks if the STOMP client is connected.
- * @returns {boolean} True if the STOMP client is connected, false otherwise.
- */
 const isConnected = () => stompClient && stompClient.connected;
 
-/**
- * Connects to the WebSocket server.
- * @param {function} onConnected Callback function to execute when the connection is successful.
- * @param {function} onError Callback function to execute when an error occurs.
- */
 const connectSocket = async (onConnected, onError) => {
-    if (!stompClient) {
-        const socket = new SockJS(process.env.REACT_APP_API_WS_URL);
-        const accessToken = localStorage.getItem('token');
+  const accessToken = localStorage.getItem("token");
 
-        if (!accessToken) {
-            console.error('No access token found!');
-            return;
-        }
+  if (!accessToken) {
+    console.error("No access token found!");
+    return;
+  }
 
-        stompClient = new Client({
-            webSocketFactory: () => socket,
-            connectHeaders: {
-                Authorization: `Bearer ${accessToken}`,
-            },
-            onConnect: onConnected,
-            onStompError: (error) => {
-                console.error('STOMP error:', error);
-                if (onError) onError(error);
-            },
-        });
+  if (!stompClient) {
+    const socket = new SockJS(process.env.REACT_APP_API_WS_URL);
 
-        stompClient.activate();
-    }
+    stompClient = new Client({
+      webSocketFactory: () => socket,
+      connectHeaders: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      onConnect: () => {
+        reconnectAttempts = 0; // Reset lại số lần thử khi kết nối thành công
+        console.log("Connected to WebSocket server.");
+        if (onConnected) onConnected();
+      },
+      onStompError: (error) => {
+        console.error("STOMP error:", error);
+        if (onError) onError(error);
+      },
+      onDisconnect: () => {
+        console.log("Disconnected from WebSocket server.");
+        reconnectSocket(onConnected, onError);
+      },
+    });
+
+    stompClient.activate();
+  }
 };
 
-/**
- * Subscribes to receive messages from the WebSocket server.
- * @param {function} onMessageReceived Callback function to execute when a message is received.
- */
-const subscribeToChat = (onMessageReceived) => {
-    if (stompClient) {
-        stompClient.subscribe('/public', onMessageReceived);
-    } else {
-        console.error('STOMP client is not initialized or connected.');
-    }
+const reconnectSocket = (onConnected, onError) => {
+  if (reconnectAttempts < MAX_RECONNECT_ATTEMPTS) {
+    reconnectAttempts++;
+    console.log(`Reconnecting attempt ${reconnectAttempts}...`);
+    setTimeout(
+      () => connectSocket(onConnected, onError),
+      2000 * reconnectAttempts
+    ); // Tăng thời gian thử lại
+  } else {
+    console.error(
+      "Max reconnect attempts reached. Could not connect to WebSocket."
+    );
+  }
 };
 
-/**
- * Sends a message to the WebSocket server.
- * @param {object} messageData The message data to be sent.
- */
+const subscribeToTopic = (topic, onMessageReceived) => {
+  if (isConnected()) {
+    stompClient.subscribe(topic, (message) => {
+      const data = JSON.parse(message.body);
+      onMessageReceived(data);
+    });
+  } else {
+    console.error("Cannot subscribe, STOMP client not connected.");
+  }
+};
+
+const subscribeToNotifications = (email, onNotificationReceived) => {
+  const notificationPath = `/private/${email}/user/notification`;
+  console.log("Subscribing to notifications:", notificationPath);
+  subscribeToTopic(notificationPath, onNotificationReceived);
+};
+const subscribeToAdminNotifications = (adminId, onNotificationReceived) => {
+  const adminNotificationPath = `/private/${adminId}/admin/notification`;
+  console.log("Subscribing to admin notifications:", adminNotificationPath);
+  subscribeToTopic(adminNotificationPath, onNotificationReceived);
+};
+const subscribeThreadChannel = (onNotification) => {
+  const path = "/public/user";
+  console.log("Subscribing to thread:", path);
+  subscribeToTopic(path, onNotification);
+};
+
 const sendMessage = (messageData) => {
-    if (isConnected() && messageData) {
-        stompClient.publish({
-            destination: '/app/message',
-            body: JSON.stringify(messageData),
-        });
-    } else {
-        console.error('STOMP connection not established.');
-    }
+  if (isConnected() && messageData) {
+    stompClient.publish({
+      destination: "/app/message",
+      body: JSON.stringify(messageData),
+    });
+  } else {
+    console.error(
+      "Cannot send message, STOMP client not connected or message data is empty."
+    );
+  }
 };
 
-/**
- * Disconnects from the WebSocket server.
- */
 const disconnectSocket = () => {
-    if (stompClient) {
-        stompClient.deactivate();
-    }
+  if (isConnected()) {
+    stompClient.deactivate();
+  }
 };
 
 export {
-    connectSocket,
-    disconnectSocket,
-    isConnected,
-    sendMessage,
-    subscribeToChat
+  connectSocket,
+  disconnectSocket,
+  isConnected,
+  sendMessage,
+  subscribeToTopic,
+  subscribeToNotifications,
+  subscribeThreadChannel,
+  subscribeToAdminNotifications,
 };

@@ -1,41 +1,59 @@
 @import "../../../contants/colors.scss";
 
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  background-color: $background-header;
-  color: $title;
-
-  .header-left {
     display: flex;
+    justify-content: space-between;
     align-items: center;
+    padding: 10px 20px;
+    background-color: $background-header;
+    color: $title;
 
-    .app-name {
-      font-size: 24px;
-      font-weight: bold;
-    }
-  }
+    .header-left {
+        display: flex;
+        align-items: center;
 
-  .header-right {
-    display: flex;
-    align-items: center;
-
-    .header-icon {
-      font-size: 24px;
-      margin-left: 20px;
-      cursor: pointer;
-      transition: color 0.3s ease;
+        .app-name {
+            font-size: 24px;
+            font-weight: bold;
+        }
     }
 
-    .user-name {
-      font-size: 16px;
-      margin-left: 10px;
-    }
-  }
+    .header-right {
+        display: flex;
+        align-items: center;
 
-  .header-icon:hover {
-    color: $primary_green;
-  }
+        .header-icon {
+            font-size: 18px;
+            margin-left: 20px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .user-name {
+            font-size: 16px;
+            margin-left: 10px;
+        }
+    }
+
+    .header-icon:hover {
+        color: $primary_green;
+    }
 }
+.ant-modal-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+// .ant-modal {
+//   .ant-modal-content {
+//     position: fixed;
+//     top: 40px;
+//     right: 30px;
+//     transform-origin: top right !important;
+//     animation: none;
+//     transform: none;
+//   }
+// }
+
+// .ant-modal-mask {
+//   display: none;
+// }

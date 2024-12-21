@@ -1,6 +1,4 @@
-import React, { useState } from "react";
-import authAPI from "../../../api/authAPI";
-import { ToastContainer, toast } from "react-toastify";
+import React, { useState, useContext, useEffect } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { Box, Image, Text } from "@chakra-ui/react";
 import { BsThreeDots } from "react-icons/bs";
@@ -13,6 +11,7 @@ import AccountContext from "../../../contexts/AccountContext";
 import CreatePost from "../../../components/post/CreatePost";
 import Utils from "../../../support/support_function";
 import { useTranslation } from "react-i18next";
+import ImageList from "../../../components/post/ImageList";
 
 const Homepage = ({ setActiveIcon }) => {
   const { t } = useTranslation();
@@ -57,10 +56,7 @@ const Homepage = ({ setActiveIcon }) => {
       }
     };
   }, [page]);
-const Homepage = () => {
   return (
-    // <div>
-    //   <h1>Hello World</h1>
     <div
       className="container-main"
       style={{
@@ -71,7 +67,10 @@ const Homepage = () => {
     >
       <div className="create-post" onClick={() => setIsCreatePostOpen(true)}>
         <div className="user-avatar-container">
-          <Image src={account?.avatar_file || noAvt} className="user-avatar" />
+          <Image
+            src={account?.avatar_file?.url || noAvt}
+            className="user-avatar"
+          />
         </div>
         <input
           type="text"
@@ -100,7 +99,7 @@ const Homepage = () => {
               <div className="header-post">
                 <div className="user-info">
                   <Image
-                    src={post.author.avatar_file || noAvt}
+                    src={post.author.avatar_file?.url || noAvt}
                     className="user-avatar"
                     name={post.author.display_name}
                   />
@@ -122,7 +121,11 @@ const Homepage = () => {
                 <Text className="post-content">{post.content}</Text>
                 {post.files && post.files.length > 0 && (
                   <Box className="post-image">
-                    <Image src={post.files} />
+                    <ImageList
+                      files={post.files}
+                      setFiles={() => {}}
+                      isEditable={false}
+                    />
                   </Box>
                 )}
                 <div className="actions">

@@ -1,90 +1,66 @@
 @import "../../../contants/colors.scss";
 
-* {
-  margin: 0;
-  padding: 0;
+.main-wrapper {
+    background-color: white;
+    min-height: 100vh;
 }
-
-html,
-body {
-  font-size: 10px;
-  background-color: $background;
-}
-
 .data-table-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: auto;
-}
-
-.custom-title {
-  font-family: "Rubik", sans-serif;
-  color: $title;
-  text-align: center;
-  font-size: 24px;
-  font-weight: 500;
-}
-
-.center-content {
-  text-align: center;
-}
-
-.sub-header {
-  display: flex;
-  align-items: center;
-}
-
-.custom-search-input {
-  width: 400px;
-  height: 20px;
-  padding: 12px;
-  border: 1px solid;
-  border-radius: 5px;
-  font-family: "Rubik", sans-serif;
-  font-size: 13px;
-  background-color: #f8f8f8;
-  color: #c8c8c8;
-  outline: none;
-}
-
-.custom-search-input::placeholder {
-  font-family: "Rubik", sans-serif;
-}
-
-.align-item-center {
-  display: flex;
-  align-items: center;
+    padding: 15px;
+    .table-title {
+        text-align: center;
+        font-size: 24px;
+        color: $title;
+        margin-bottom: 16px;
+    }
+    .custom-search-input {
+        width: 400px;
+        margin-bottom: 16px;
+        border: 1px solid;
+        border-radius: 5px;
+        font-size: 13px;
+        background-color: #f8f8f8;
+        border: 1px solid #d9d9d9;
+        outline: none;
+        &:focus {
+            border-color: #40a9ff;
+            box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+        }
+    }
 }
 
 .btn-Del {
-  background: transparent;
-  border: none;
-  color: $danger;
-  margin: 0px 10px;
+    background: transparent;
+    border: none;
+    color: $danger;
+    margin: 0px 10px;
 }
 
 .btn-Del:hover {
-  background-color: $danger !important;
-  color: $white !important;
+    background-color: $danger !important;
+    color: $white !important;
 }
 
 .btn-UnDel {
-  background: transparent;
-  border: none;
-  color: $button;
-  margin: 0px 10px;
+    background: transparent;
+    border: none;
+    color: $button;
+    margin: 0px 10px;
 }
 
 .btn-UnDel:hover {
-  background-color: $button !important;
-  color: $white !important;
+    background-color: $button !important;
+    color: $white !important;
 }
 
-.lock-icon {
-  color: $danger;
+.management-account-table .ant-table-tbody > tr > td {
+    padding: 7px;
 }
 
-.unlock-icon {
-  color: $success;
+.management-account-table .ant-table-thead > tr > th {
+    padding: 9px;
+    background-color: $background;
+}
+.custom-modal .ant-modal {
+    top: 50% !important;
+    transform: translateY(-50%);
 }

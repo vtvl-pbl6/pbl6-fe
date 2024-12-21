@@ -8,103 +8,143 @@ import noAvt from "../../../assets/imgs/no_avt.jpg";
 import "./index.scss";
 
 const Search = ({ setActiveIcon }) => {
-  const { t } = useTranslation();
-  const { currentTheme } = useContext(ThemeContext);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
+    const { t } = useTranslation();
+    const { currentTheme } = useContext(ThemeContext);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [searchResults, setSearchResults] = useState([]);
+    const [loading, setLoading] = useState(false);
 
-  const searchUsers = async (query) => {
-    try {
-      const response = await AccountAPI.searchUsers(query, 1);
-      if (response.data.is_success) {
-        setSearchResults(response.data.data);
-      }
+    const searchUsers = async (query) => {
+        try {
+            const response = await AccountAPI.searchUsers(query, 1);
+            if (response.data.is_success) {
+                setSearchResults(response.data.data);
+            }
+        } catch (error) {
+            console.error("Search error:", error);
+        }
+    };
 
-    } catch (error) {
-      console.error("Search error:", error);
-    }
-  };
+    const debouncedSearch = useCallback(
+        debounce((query) => {
+            if (query) {
+                searchUsers(query);
+            }
+        }, 200),
+        []
+    );
 
-  const debouncedSearch = useCallback(
-    debounce((query) => {
-      if (query) {
-        searchUsers(query);
-      }
-    }, 200),
-    []
-  );
+    const handleInputChange = (e) => {
+        const value = e.target.value;
+        setSearchTerm(value);
+        debouncedSearch(value);
+    };
 
-  const handleInputChange = (e) => {
-    const value = e.target.value;
-    setSearchTerm(value);
-    debouncedSearch(value);
-  };
+    const handleFollowUnfollow = async (userId, isFollowing) => {
+        if (loading) return;
+        setLoading(true);
 
-  useEffect(() => {
-    setActiveIcon("search");
-  }, [setActiveIcon]);
+        try {
+            const response = isFollowing
+                ? await AccountAPI.unfollowUser(userId)
+                : await AccountAPI.followUser(userId);
 
-  return (
-    <div
-      className="container-main"
-      style={{
-        backgroundColor: currentTheme.bgPost,
-        color: currentTheme.text,
-        "--border-color": currentTheme.borderColor,
-      }}
-    >
-      <div className="search-header">
+            if (response.data.is_success) {
+                setSearchResults((prevResults) =>
+                    prevResults.map((user) =>
+                        user.id === userId
+                            ? {
+                                  ...user,
+                                  is_followed_by_current_user: !isFollowing,
+                              }
+                            : user
+                    )
+                );
+            }
+        } catch (error) {
+            console.error("Error in follow/unfollow:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        setActiveIcon("search");
+    }, [setActiveIcon]);
+
+    return (
         <div
-          className="search-box"
-          style={{ backgroundColor: currentTheme.background }}
-        >
-          <i className="search-icon">
-            <SearchOutlined />
-          </i>
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={handleInputChange}
-            placeholder={t("search.search")}
+            className="container-main"
             style={{
-              color: currentTheme.text,
+                backgroundColor: currentTheme.bgPost,
+                color: currentTheme.text,
+                "--border-color": currentTheme.borderColor,
             }}
-          />
-        </div>
-      </div>
-      <div className="search-body">
-        {searchResults.length > 0 ? (
-          searchResults.map((user) => (
-            <div key={user.id} className="profile-card">
-              <div className="profile-info">
-                <img
-                  src={user.avatar || noAvt}
-                  alt="Avatar"
-                  className="avatar"
-                />
-                <div className="profile-details">
-                  <strong className="username">{user.display_name}</strong>
-                  <p className="display-name">
-                    {user.first_name} {user.last_name}
-                  </p>
-                  <p className="followers">
-                    {user.follower_num} {t("profile.followers")}
-                  </p>
+        >
+            <div className="search-header">
+                <div
+                    className="search-box"
+                    style={{ backgroundColor: currentTheme.background }}
+                >
+                    <i className="search-icon">
+                        <SearchOutlined />
+                    </i>
+                    <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={handleInputChange}
+                        placeholder={t("search.search")}
+                        style={{
+                            color: currentTheme.text,
+                        }}
+                    />
                 </div>
-              </div>
-              <button className="follow-btn">
-                {user.is_followed_by_current_user
-                  ? t("activity.unfollow")
-                  : t("activity.follow")}
-              </button>
             </div>
-          ))
-        ) : (
-          <p className="no-results">{t("search.no_results")}</p>
-        )}
-      </div>
-    </div>
-  );
+            <div className="search-body">
+                {searchResults.length > 0 ? (
+                    searchResults.map((user) => (
+                        <div key={user.id} className="profile-card">
+                            <div className="profile-info1">
+                                <img
+                                    src={user.avatar_file?.url || noAvt}
+                                    alt="Avatar"
+                                    className="avatar1"
+                                />
+                                <div className="profile-details">
+                                    <strong className="username">
+                                        {user.display_name}
+                                    </strong>
+                                    <p className="display-name">
+                                        {user.first_name} {user.last_name}
+                                    </p>
+                                    <p className="followers">
+                                        {user.follower_num}{" "}
+                                        {t("profile.followers")}
+                                    </p>
+                                </div>
+                            </div>
+                            <button
+                                className="follow-btn"
+                                onClick={() =>
+                                    handleFollowUnfollow(
+                                        user.id,
+                                        user.is_followed_by_current_user
+                                    )
+                                }
+                                disabled={loading}
+                            >
+                                {user.is_followed_by_current_user
+                                    ? t("activity.unfollow")
+                                    : t("activity.follow")}
+                            </button>
+                        </div>
+                    ))
+                ) : (
+                    <p className="no-results">{t("search.no_results")}</p>
+                )}
+            </div>
+        </div>
+    );
 };
 
 export default Search;

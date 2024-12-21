@@ -13,148 +13,170 @@ import Utils from "../../support/support_function";
 import "./UserPost.scss";
 
 const UserPost = () => {
-  const { t } = useTranslation();
-  const { currentTheme } = useContext(ThemeContext);
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasMorePosts, setHasMorePosts] = useState(true);
-  const { userPosts, setUserPosts, userPage, setUserPage, account } =
-    useContext(AccountContext);
-  const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
+    const { t } = useTranslation();
+    const { currentTheme } = useContext(ThemeContext);
+    const [isLoading, setIsLoading] = useState(false);
+    const [hasMorePosts, setHasMorePosts] = useState(true);
+    const { userPosts, setUserPosts, userPage, setUserPage, account } =
+        useContext(AccountContext);
+    const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
 
-  useEffect(() => {
-    const callAPI = async () => {
-      try {
-        setIsLoading(true);
-        const response = await postAPI.getPostsByAuthor(userPage, account.id);
-        if (response.data.is_success) {
-          const newPosts = response.data.data;
-          if (newPosts.length === 0) {
-            setHasMorePosts(false);
-          } else {
-            setUserPosts((prevPosts) => [...prevPosts, ...newPosts]);
-          }
+    useEffect(() => {
+        const callAPI = async () => {
+            try {
+                setIsLoading(true);
+                const response = await postAPI.getPostsByAuthor(
+                    userPage,
+                    account.id
+                );
+                if (response.data.is_success) {
+                    const newPosts = response.data.data;
+                    if (newPosts.length === 0) {
+                        setHasMorePosts(false);
+                    } else {
+                        setUserPosts((prevPosts) => [
+                            ...prevPosts,
+                            ...newPosts,
+                        ]);
+                    }
+                }
+            } catch (error) {
+                console.error("Error fetching posts:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        if ((userPosts.length === 0 || userPage > 1) && hasMorePosts) {
+            callAPI();
         }
-      } catch (error) {
-        console.error("Error fetching posts:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    if ((userPosts.length === 0 || userPage > 1) && hasMorePosts) {
-      callAPI();
-    }
-  }, [userPage]);
-  useEffect(() => {
-    const handleScroll = () => {
-      if (
-        window.innerHeight + document.documentElement.scrollTop >=
-        document.documentElement.offsetHeight - 80
-      ) {
-        if (!isLoading) {
-          setUserPage((prevPage) => prevPage + 1);
-        }
-      }
-    };
+    }, [userPage]);
+    useEffect(() => {
+        const handleScroll = () => {
+            if (
+                window.innerHeight + document.documentElement.scrollTop >=
+                document.documentElement.offsetHeight - 80
+            ) {
+                if (!isLoading) {
+                    setUserPage((prevPage) => prevPage + 1);
+                }
+            }
+        };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [isLoading]);
-  return (
-    <>
-      <div className="create-post" onClick={() => setIsCreatePostOpen(true)}>
-        <div className="user-avatar-container">
-          <Image src={account?.avatar_file || noAvt} className="user-avatar" />
-        </div>
-        <input
-          type="text"
-          placeholder={t("createPost.what_is_new")}
-          className="input-post"
-          readOnly
-          style={{
-            backgroundColor: currentTheme.inputBackground,
-            color: currentTheme.text,
-          }}
-        />
-        <button
-          className="post-button"
-          style={{
-            backgroundColor: currentTheme.extraLightGray,
-            color: currentTheme.text,
-          }}
-        >
-          {t("createPost.post")}
-        </button>
-      </div>
-      {userPosts.length > 0 ? (
-        userPosts.map((post, index) => {
-          return (
-            <div className="container-post" key={`${post.id}-${index}`}>
-              <div className="header-post">
-                <div className="user-info">
-                  <Image
-                    src={post.author.avatar_file || noAvt}
-                    className="user-avatar"
-                    name={post.author.display_name}
-                  />
-                  <div
-                    className="user-name"
-                    style={{ color: currentTheme.text }}
-                  >
-                    <Text>{post.author.display_name}</Text>
-                  </div>
-                  <Text className="post-time">
-                    {Utils.formatPostTime(post.created_at)}
-                  </Text>
-                </div>
-                <div className="more">
-                  <BsThreeDots />
-                </div>
-              </div>
-              <div className="post-body">
-                <Text className="post-content">{post.content}</Text>
-                {post.files && post.files.length > 0 && (
-                  <Box className="post-image">
-                    <ImageList
-                      files={post.files}
-                      setFiles={() => {}}
-                      isEditable={false}
+        window.addEventListener("scroll", handleScroll);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, [isLoading]);
+    return (
+        <>
+            <div
+                className="create-post"
+                onClick={() => setIsCreatePostOpen(true)}
+            >
+                <div className="user-avatar-container">
+                    <Image
+                        src={account?.avatar_file?.url || noAvt}
+                        className="user-avatar"
                     />
-                  </Box>
-                )}
-                <div className="actions">
-                  <Actions
-                    reactionNum={post.reaction_num || null}
-                    sharedNum={post.shared_num || null}
-                    commentsLength={(post.comments || []).length}
-                  />
                 </div>
-              </div>
+                <input
+                    type="text"
+                    placeholder={t("createPost.what_is_new")}
+                    className="input-post"
+                    readOnly
+                    style={{
+                        backgroundColor: currentTheme.inputBackground,
+                        color: currentTheme.text,
+                    }}
+                />
+                <button
+                    className="post-button"
+                    style={{
+                        backgroundColor: currentTheme.extraLightGray,
+                        color: currentTheme.text,
+                    }}
+                >
+                    {t("createPost.post")}
+                </button>
             </div>
-          );
-        })
-      ) : (
-        <div className="no-posts">
-          <Text
-            style={{
-              textAlign: "center",
-              margin: "20px",
-              color: currentTheme.text,
-            }}
-          >
-            {t("post.no_more_posts")}
-          </Text>
-        </div>
-      )}
-      {isCreatePostOpen && (
-        <CreatePost
-          isOpen={isCreatePostOpen}
-          onClose={() => setIsCreatePostOpen(false)}
-        />
-      )}
-    </>
-  );
+            {userPosts.length > 0 ? (
+                userPosts.map((post, index) => {
+                    return (
+                        <div
+                            className="container-post"
+                            key={`${post.id}-${index}`}
+                        >
+                            <div className="header-post">
+                                <div className="user-info">
+                                    <Image
+                                        src={
+                                            post.author.avatar_file?.url ||
+                                            noAvt
+                                        }
+                                        className="user-avatar"
+                                        name={post.author.display_name}
+                                    />
+                                    <div
+                                        className="user-name"
+                                        style={{ color: currentTheme.text }}
+                                    >
+                                        <Text>{post.author.display_name}</Text>
+                                    </div>
+                                    <Text className="post-time">
+                                        {Utils.formatPostTime(post.created_at)}
+                                    </Text>
+                                </div>
+                                <div className="more">
+                                    <BsThreeDots />
+                                </div>
+                            </div>
+                            <div className="post-body">
+                                <Text className="post-content">
+                                    {post.content}
+                                </Text>
+                                {post.files && post.files.length > 0 && (
+                                    <Box className="post-image">
+                                        <ImageList
+                                            files={post.files}
+                                            setFiles={() => {}}
+                                            isEditable={false}
+                                        />
+                                    </Box>
+                                )}
+                                <div className="actions">
+                                    <Actions
+                                        reactionNum={post.reaction_num || null}
+                                        sharedNum={post.shared_num || null}
+                                        commentsLength={
+                                            (post.comments || []).length
+                                        }
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    );
+                })
+            ) : (
+                <div className="no-posts">
+                    <Text
+                        style={{
+                            textAlign: "center",
+                            margin: "20px",
+                            color: currentTheme.text,
+                        }}
+                    >
+                        {t("post.no_more_posts")}
+                    </Text>
+                </div>
+            )}
+            {isCreatePostOpen && (
+                <CreatePost
+                    isOpen={isCreatePostOpen}
+                    onClose={() => setIsCreatePostOpen(false)}
+                />
+            )}
+        </>
+    );
 };
 
 export default UserPost;

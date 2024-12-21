@@ -6,55 +6,68 @@ import AdminLayout from "../../layout/admin/AdminLayout.jsx";
 import UserLayout from "../../layout/user/UserLayout.jsx";
 
 const UserHomePage = LoadableComponent(() =>
-  import("../pages/Homepage/index.jsx")
+    import("../pages/Homepage/index.jsx")
 );
 const Login = LoadableComponent(() =>
-  import("../../layout/auth/Login/index.jsx")
+    import("../../layout/auth/Login/index.jsx")
 );
 const Signup = LoadableComponent(() =>
-  import("../../layout/auth/Signup/index.jsx")
-);
-const ForgotPassword = LoadableComponent(() =>
-  import("../../layout/auth/ForgotPassword/index.jsx")
+    import("../../layout/auth/Signup/index.jsx")
 );
 const Profile = LoadableComponent(() => import("../pages/Profile/index.jsx"));
 const Activity = LoadableComponent(() => import("../pages/Activity/index.jsx"));
 const Search = LoadableComponent(() => import("../pages/Search/index.jsx"));
 const ManageAccount = LoadableComponent(() =>
-  import("../pages/ManageAccount/index.jsx")
+    import("../pages/ManageAccount/index.jsx")
+);
+const ManagePost = LoadableComponent(() =>
+    import("../pages/ManagePost/index.jsx")
+);
+const DetailRequest = LoadableComponent(() =>
+    import("../pages/DetailRequest/index.jsx")
 );
 const AllRoutes = () => {
-  return (
-    <Routes>
-      <Route path="/" element={<Navigate to={"/auth/login"} />} />
-      <Route path="/auth/login" element={<Login />} />
+    return (
+        <Routes>
+            <Route path="/" element={<Navigate to={"/auth/login"} />} />
+            <Route path="/auth/login" element={<Login />} />
+            <Route path="/auth/signup" element={<Signup />} />
+            <Route element={<UserRoute />}>
+                <Route
+                    path="/user-homepage"
+                    element={<UserLayout component={UserHomePage} />}
+                />
+                <Route
+                    path="/profile"
+                    element={<UserLayout component={Profile} />}
+                />
+                <Route
+                    path="/activity"
+                    element={<UserLayout component={Activity} />}
+                />
+                <Route
+                    path="/search"
+                    element={<UserLayout component={Search} />}
+                />
+            </Route>
 
-      {/* User */}
-      <Route element={<UserRoute />}>
-        <Route
-          path="/user-homepage"
-          element={<UserLayout component={UserHomePage} />}
-        />
-      {/* </Route> */}
-
-        <Route path="/profile" element={<UserLayout component={Profile} />} />
-        <Route path="/activity" element={<UserLayout component={Activity} />} />
-        <Route path="/search" element={<UserLayout component={Search} />} />
-      </Route>
-
-      {/* Admin */}
-      <Route element={<AdminRoute />}>
-        <Route
-          path="/admin/manage-account"
-          element={<AdminLayout component={ManageAccount} />}
-        />
-        {/* <Route
-          path="/admin/manage-post"
-          element={<AdminLayout component={ManagePost} />}
-        /> */}
-      </Route>
-    </Routes>
-  );
+            {/* Admin */}
+            <Route element={<AdminRoute />}>
+                <Route
+                    path="/admin/manage-account"
+                    element={<AdminLayout component={ManageAccount} />}
+                />
+                <Route
+                    path="/admin/list-requests"
+                    element={<AdminLayout component={ManagePost} />}
+                />
+                <Route
+                    path="/admin/list-requests/detail/:id"
+                    element={<AdminLayout component={DetailRequest} />}
+                />
+            </Route>
+        </Routes>
+    );
 };
 
 export default AllRoutes;

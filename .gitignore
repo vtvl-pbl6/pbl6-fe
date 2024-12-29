@@ -22,7 +22,7 @@
 .env.*
 !.env.example
 public/env.js
-
+*.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

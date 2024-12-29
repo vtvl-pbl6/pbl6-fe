@@ -21,65 +21,109 @@ function getStringPost(post) {
     return post + " posts";
   }
 }
+function formatPostTime(createdAt) {
+  const [date, time] = createdAt.split(" ");
+  const [day, month, year] = date.split("-");
+  const [hours, minutes] = time.split(":").map((part) => part.split(".")[0]);
 
-function getStringApproveForm(form) {
-  if (form === 0 || form === 1) {
-    return form + " form";
+  const postDate = new Date(`${year}-${month}-${day}T${hours}:${minutes}:00`);
+  const now = new Date();
+  const differenceInMilliseconds = now - postDate;
+
+  const seconds = Math.floor(differenceInMilliseconds / 1000);
+  const minutesDiff = Math.floor(seconds / 60);
+  const hoursDiff = Math.floor(minutesDiff / 60);
+  const daysDiff = Math.floor(hoursDiff / 24);
+
+  if (daysDiff >= 3) {
+    return postDate.toLocaleDateString();
+  } else if (daysDiff === 2) {
+    return "2 ngày trước";
+  } else if (daysDiff === 1) {
+    return "1 ngày trước";
+  } else if (hoursDiff > 0) {
+    return `${hoursDiff} giờ trước`;
+  } else if (minutesDiff > 0) {
+    return `${minutesDiff} phút trước`;
   } else {
-    return form + " forms";
+    return "Vừa mới";
   }
 }
 
-function convertDateFromArrayToString(dateArray) {
-  if (!Array.isArray(dateArray)) {
-    return dateArray;
+function formatDate(dateString) {
+  if (!dateString || typeof dateString !== "string") {
+    return "Invalid date";
   }
-  let [year, month, day] = dateArray;
-  month = month.toString().padStart(2, "0");
-  day = day.toString().padStart(2, "0");
-  return `${year}-${month}-${day}`;
+
+  const [day, month, year] = dateString.split(" ")[0].split("-");
+  if (!day || !month || !year) {
+    return "Invalid date format";
+  }
+  return `${day}-${month}-${year}`;
 }
 
-function getCurrentlyDate() {
-  const currentDate = new Date();
+function formatDateTime(dateString) {
+  if (!dateString || typeof dateString !== "string") {
+    return "Invalid date";
+  }
 
-  const year = currentDate.getFullYear();
-  const month = ("0" + (currentDate.getMonth() + 1)).slice(-2);
-  const day = ("0" + currentDate.getDate()).slice(-2);
+  const [datePart, timePart] = dateString.split(" ");
+  if (!datePart || !timePart) {
+    return "Invalid date-time format";
+  }
 
-  const formattedDate = `${year}-${month}-${day}`;
-  return formattedDate;
+  const [day, month, year] = datePart.split("-");
+  const formattedDate = `${day}-${month}-${year}`;
+  const formattedTime = timePart ? timePart.split(".")[0] : "00:00:00";
+  return `${formattedTime} ${formattedDate}`;
 }
-function removeSpaceInString(str) {
-  return str.replace(/\s+/g, "");
+function formatContent(content) {
+  if (!content || typeof content !== "string") {
+    return "Invalid content";
+  }
+
+  const mainContent = content.split("\n")[0];
+
+  const formattedContent =
+    mainContent.length > 75 ? mainContent.slice(0, 75) + "..." : mainContent;
+
+  return formattedContent
+    .split(/(<strong>.*?<\/strong>)/)
+    .map((segment, index) => {
+      if (segment.startsWith("<strong>") && segment.endsWith("</strong>")) {
+        return (
+          <strong key={index}>{segment.replace(/<\/?strong>/g, "")}</strong>
+        );
+      } else {
+        return segment;
+      }
+    });
 }
 
-function getFirstCharacter(str) {
-  return str.charAt(0);
-}
+function formatReason(content) {
+  if (!content || typeof content !== "string") {
+    return "Invalid reason";
+  }
 
-function getCurrentDateTime() {
-  var now = new Date();
+  const reason = content.split("\n")[1];
 
-  var year = now.getFullYear();
-  var month = String(now.getMonth() + 1).padStart(2, "0"); // Tháng bắt đầu từ 0 nên cần cộng thêm 1 và đảm bảo có 2 chữ số
-  var day = String(now.getDate()).padStart(2, "0"); // Đảm bảo có 2 chữ số
-  var hours = String(now.getHours()).padStart(2, "0"); // Đảm bảo có 2 chữ số
-  var minutes = String(now.getMinutes()).padStart(2, "0"); // Đảm bảo có 2 chữ số
+  if (reason) {
+    const reasonText = reason.split(":")[1];
+    return reasonText ? reasonText.trim() : "Không có lí do cụ thể";
+  }
 
-  return `${year}-${month}-${day} ${hours}:${minutes}`;
+  return "Không có lí do cụ thể";
 }
 
 const Utils = {
-  getCurrentlyDate,
   getStringComment,
   getStringReply,
   getStringPost,
-  getStringApproveForm,
-  removeSpaceInString,
-  getFirstCharacter,
-  convertDateFromArrayToString,
-  getCurrentDateTime,
+  formatPostTime,
+  formatDate,
+  formatDateTime,
+  formatContent,
+  formatReason,
 };
 
 export default Utils;

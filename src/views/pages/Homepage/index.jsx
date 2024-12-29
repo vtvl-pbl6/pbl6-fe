@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "react-toastify/dist/ReactToastify.css";
-import { TailSpin } from "react-loader-spinner";
 import { Box, Image, Text } from "@chakra-ui/react";
 import { BsThreeDots } from "react-icons/bs";
 import Actions from "../../../components/action/Actions";
@@ -10,7 +9,9 @@ import { ThemeContext } from "../../../contexts/themeContext";
 import postAPI from "../../../api/postAPI";
 import AccountContext from "../../../contexts/AccountContext";
 import CreatePost from "../../../components/post/CreatePost";
+import Utils from "../../../support/support_function";
 import { useTranslation } from "react-i18next";
+import ImageList from "../../../components/post/ImageList";
 
 const Homepage = ({ setActiveIcon }) => {
   const { t } = useTranslation();
@@ -18,7 +19,6 @@ const Homepage = ({ setActiveIcon }) => {
     useContext(AccountContext);
   const { currentTheme } = useContext(ThemeContext);
   const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
-
   useEffect(() => {
     setActiveIcon("home");
     const callAPI = async () => {
@@ -56,7 +56,6 @@ const Homepage = ({ setActiveIcon }) => {
       }
     };
   }, [page]);
-
   return (
     <div
       className="container-main"
@@ -68,7 +67,10 @@ const Homepage = ({ setActiveIcon }) => {
     >
       <div className="create-post" onClick={() => setIsCreatePostOpen(true)}>
         <div className="user-avatar-container">
-          <Image src={account?.avatar_file || noAvt} className="user-avatar" />
+          <Image
+            src={account?.avatar_file?.url || noAvt}
+            className="user-avatar"
+          />
         </div>
         <input
           type="text"
@@ -97,7 +99,7 @@ const Homepage = ({ setActiveIcon }) => {
               <div className="header-post">
                 <div className="user-info">
                   <Image
-                    src={post.author.avatar_file || noAvt}
+                    src={post.author.avatar_file?.url || noAvt}
                     className="user-avatar"
                     name={post.author.display_name}
                   />
@@ -108,7 +110,7 @@ const Homepage = ({ setActiveIcon }) => {
                     <Text>{post.author.display_name}</Text>
                   </div>
                   <Text className="post-time">
-                    {new Date(post.created_at).toLocaleString()}
+                    {Utils.formatPostTime(post.created_at)}
                   </Text>
                 </div>
                 <div className="more">
@@ -119,11 +121,19 @@ const Homepage = ({ setActiveIcon }) => {
                 <Text className="post-content">{post.content}</Text>
                 {post.files && post.files.length > 0 && (
                   <Box className="post-image">
-                    <Image src={post.files} />
+                    <ImageList
+                      files={post.files}
+                      setFiles={() => {}}
+                      isEditable={false}
+                    />
                   </Box>
                 )}
                 <div className="actions">
-                  <Actions liked={false} setLiked={() => {}} />
+                  <Actions
+                    reactionNum={post.reaction_num || null}
+                    sharedNum={post.shared_num || null}
+                    commentsLength={(post.comments || []).length}
+                  />
                 </div>
               </div>
             </div>
@@ -131,7 +141,13 @@ const Homepage = ({ setActiveIcon }) => {
         })
       ) : (
         <div className="no-posts">
-          <Text style={{ textAlign: "center", color: currentTheme.text }}>
+          <Text
+            style={{
+              textAlign: "center",
+              margin: "20px",
+              color: currentTheme.text,
+            }}
+          >
             {t("post.no_more_posts")}
           </Text>
         </div>
